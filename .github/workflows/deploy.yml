@@ -8,7 +8,7 @@ on:
   # Docs and the local check scripts change nothing that ships.
   push:
     branches: [main]
-    paths-ignore: &docs ["**.md", "dev/**", "scripts/shot.mjs", "scripts/check-looks.mjs"]
+    paths-ignore: &docs ["**.md", "docs/**", "dev/**", "scripts/shot.mjs", "scripts/check-looks.mjs"]
   pull_request:
     paths-ignore: *docs
   workflow_dispatch:
