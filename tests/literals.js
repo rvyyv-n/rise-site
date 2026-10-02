@@ -7,6 +7,12 @@ import path from "node:path";
 // The only CSS files that may hold hex and px values.
 export const TOKEN_FILES = ["src/css/tokens.css", "src/css/site-tokens.css"];
 
+// Files ported as exported from the design, which keep the design's own px
+// values rather than being rewritten onto new tokens. This is a ratchet: each
+// count must match exactly, and is lowered here when a literal goes, so the
+// list only ever shrinks. Every other file holds none.
+export const LEFTOVER = {};
+
 const SKIP_DIRS = new Set(["node_modules", "dist", "private", ".git", ".wrangler"]);
 
 export const walk = (dir) =>
