@@ -13,15 +13,15 @@ is git-ignored and never imported, served or committed.
 ## Build passes
 
 A build pass is a group of similar targets, run in one thread on one model. The
-old pass names (S2 to S11) are kept as target names. Build passes 1 to 3 are done.
+old pass names (S2 to S11) are kept as target names. Build passes 1 to 4 are done.
 
 | Build pass | Targets | Model | State |
 | --- | --- | --- | --- |
 | 1 `foundation` | scaffold (S2), looks (S3) | Opus 5.5, high | Done |
 | 2 `landing` | hero (S4), sections (S5) | Sonnet 5.5, high | Done |
 | 3 `shots` | shots (S6) | Sonnet 5.5, high | Done |
-| 4 `get and pages` | downloads (S7), privacy (S8) | Sonnet 5.5, high | Next |
-| 5 `interaction` | motion (S9), demo (S10) | Opus 5.5, high | To do |
+| 4 `get and pages` | downloads (S7), privacy (S8) | Sonnet 5.5, high | Done |
+| 5 `interaction` | motion (S9), demo (S10) | Opus 5.5, high | Next |
 | 6 `audit` | audit (S11) | Opus 5.5, high | To do |
 
 Why these models: build passes 2 to 4 are careful copying from the source and
@@ -42,33 +42,6 @@ or by hand):
 Each target lists what to read (paths in `H/`), what it does, and when it is
 done. Read only what the target lists. Use `Grep` for the section id in
 `Main.dc.html` and read that range, not the whole file.
-
-### downloads (S7)
-
-- **Reads:** `#get` in `Main.dc.html`, and `device`, `setInstall` and `inst` in
-  its script; plan sections 3 (row 9 and Links) and 7; `pickAssetUrl()` in
-  diet-tracker's `src/js/core/updates.js`.
-- **Does:** ports Get Rise: the Web card with the iPhone, Mac and Chrome or
-  Edge install tabs, the Android and Windows cards, and the line under them.
-  `scripts/release.mjs` reads the latest diet-tracker release at build time and
-  writes the version, file names, sizes and direct URLs into the HTML,
-  including every `v3.0.0`. Static `href`s stay
-  `https://github.com/rvyyv-n/diet-tracker/releases/latest`. `src/js/install.js`
-  tags the visitor's card and opens the tabs on their browser.
-- **Done when:** the build writes the links and sizes; with the API blocked,
-  the buttons fall back; the tabs open on the visitor's browser.
-
-### privacy (S8)
-
-- **Reads:** `canvas/Privacy.dc.html`, `canvas/NotFound.dc.html`, the
-  `<footer>` in `Main.dc.html`; plan section 3 (`/privacy`, `/404`, row 10).
-- **Does:** adds `privacy.html` and `404.html` as Vite inputs, the footer on
-  all three pages, the favicon (`icon.svg` and `icon-192.png` from the app,
-  which also ends the favicon 404 seen in every check today), and meta and Open
-  Graph tags. Adds `/privacy` and `/404` to `PATHS` in
-  `scripts/check-headers.mjs`.
-- **Done when:** both pages match their eight renders each, and every link
-  resolves.
 
 ### motion (S9)
 
@@ -116,13 +89,35 @@ done. Read only what the target lists. Use `Grep` for the section id in
   (ring tokens `--radio-ring`, `--radio-dot` in `site-tokens.css`).
 - The hero tilt handlers (`onPointerMove`/`onPointerLeave`) and the `.rs-js`
   class are left to `motion`; nothing hides content until it adds `.rs-js`.
-- `/privacy` links 404 until `privacy`; the favicon 404 stays until `privacy`.
+- `/privacy`, `/404`, the footer and the favicon are in. Every page has its
+  description, canonical and Open Graph tags (the card is `public/assets/og.jpg`).
+- Get Rise markup adds a few attributes the design does not have: `data-asset`
+  (`android` or `windows`) on the four download buttons, `data-control="install"`
+  and an `aria-label` ("Install on") on the install tabs, `data-install` on the
+  three step panels, `data-here` on the "This browser" and "This device" tags,
+  and `data-browser` on the Chrome or Edge tab and chip. The tags and the iPhone
+  and Mac panels start `hidden`; `src/js/install.js` shows them. `page.css` adds
+  the 44px install tab targets and `[hidden]{display:none !important}`.
+- `scripts/release.mjs` runs after `vite build` (`npm run build` does both) and
+  rewrites `dist/*.html`: the version everywhere, the file names, the sizes
+  (bytes / 1024^2, which is how the design's 2.52 MB and 2.77 MB come out) and
+  the direct URLs. If the API fails the build still passes and the links stay on
+  `/releases/latest`. It sends `GITHUB_TOKEN` when set. `RISE_RELEASE_API`
+  points it at another URL for testing. `tests/release.test.js` covers it.
+- `site-hook` in diet-tracker is now unblocked: it dispatches `rise-release` to
+  this repo, and `deploy.yml` needs a `repository_dispatch` trigger to receive it.
+- `shot.mjs --vh <px>` sets the viewport height. The 404 centres its content in
+  the viewport, so check it at `--vh 900` (the render's height) at 390.
+- On Cloudflare Pages `/404` itself answers 200; any unknown path answers 404
+  with this page and the CSP. `check-headers` expects 200 for all three paths.
 
 ## Repo map
 
 | Path | Holds |
 | --- | --- |
-| `index.html` | The landing page: `.rs-site` shell, header, and `<main>` with the hero, How it works, Today, Weight, Plan, Two Looks, No nagging and Private sections; the frames hold the app screens, and `downloads` adds `#get` |
+| `index.html`, `privacy.html`, `404.html` | The three pages (Vite inputs). The landing page is the `.rs-site` shell, header, and `<main>` with the hero, How it works, Today, Weight, Plan, Two Looks, No nagging, Private and Get Rise sections, then the footer; the frames hold the app screens |
+| `src/js/install.js` | Get Rise: tags the visitor's card and opens the install steps on their browser |
+| `scripts/release.mjs` | After the build, writes the latest release's version, files, sizes and URLs into `dist/*.html` |
 | `public/js/head.js` | Blocking no-flash script: sets `data-look` and `data-theme`, paints the controls as they are parsed; `window.RiseLooks` |
 | `src/js/looks.js`, `main.js` | Look and theme clicks and arrow keys, and the four Two Looks tiles (`.rs-look`, `data-pair`); follows the device until a theme is picked |
 | `src/css/tokens.css` | The design's `bundle.css`, unchanged |
