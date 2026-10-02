@@ -1,0 +1,12 @@
+/* The document floor, from the design: the page body the canvas drew on
+   (body{margin:0}, and the "preview ground" rule in the design system's
+   bundle.css). With it the whole viewport, overscroll included, takes the
+   Look's canvas and texture. */
+body{margin:0}
+body{background-color:var(--bg-canvas);background-image:var(--texture);color:var(--ink);font-family:var(--font-body);-webkit-font-smoothing:antialiased}
+
+/* The Look switch's options are drawn 40px tall inside the Segmented control's
+   48px track. An invisible ::after makes each target the 44px minimum without
+   changing what is drawn. */
+[data-control="look"] > [role="radio"]{position:relative}
+[data-control="look"] > [role="radio"]::after{content:"";position:absolute;inset:calc((var(--target-min) - 100%) / -2) 0}

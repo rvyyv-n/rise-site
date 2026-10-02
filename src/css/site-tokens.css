@@ -1,0 +1,34 @@
+/* Rise website: site tokens. Moved here unchanged from the design handoff's site.css,
+   so the hex and px values the design sets live in a token file. Everything else is
+   an existing Rise token (tokens.css). */
+
+.rs-site{
+  --container-site:1280px;
+  --gutter-site:clamp(20px,5cqw,64px);
+  --space-section:clamp(72px,9cqw,128px);
+  --type-site-wordmark:clamp(72px,8cqw,116px);
+  --type-site-hero:clamp(36px,3.7cqw,52px);
+  --type-site-h2:clamp(30px,3.4cqw,48px);
+  --type-site-lede:clamp(18px,1.5cqw,21px);
+  --hero-pad:56px;
+  --sun-get:clamp(120px,16cqw,220px);
+  --frame-bezel:10px;--frame-radius:54px;--frame-ink:#121110;
+  --window-radius:14px;--window-bar:36px;
+  --z-window:.4;--z-hero-phone:.4;--z-phone:.62;--z-phone-live:.78;--z-phone-pair:.5;--z-look:.54;
+  --dur-reveal:700ms;--dur-sunrise:1600ms;--dur-look-fade:900ms;--stagger-site:90ms;
+  --ease-site:cubic-bezier(.16,1,.3,1);
+}
+.rs-site,[data-look="paper"]{--cta-hero-wash:var(--accent-hover);--cta-hero-bg-pressed:var(--accent-pressed)}
+[data-look="reel"]{
+  --cta-hero-wash:rgba(18,17,16,.09);
+  --cta-hero-bg-pressed:linear-gradient(rgba(18,17,16,.16),rgba(18,17,16,.16)),var(--sun-wide);
+}
+
+/* screenshot scale, stepped by container width */
+@container (max-width:1279px){.rs-page{--z-window:.33;--z-hero-phone:.33;--z-look:.44}}
+@container (max-width:1060px){.rs-page{--z-window:.27;--z-hero-phone:.27;--z-look:.38;--z-phone-pair:.42;--z-phone-live:.7}}
+@container (max-width:900px){.rs-page{--z-window:.46;--z-hero-phone:.4;--z-phone:.7;--z-phone-live:.8;--z-phone-pair:.5;--z-look:.5}}
+@container (max-width:760px){.rs-page{--z-window:.37;--z-hero-phone:.34}}
+@container (max-width:600px){.rs-page{--z-window:.29;--z-hero-phone:.3;--z-look:.44}}
+@container (max-width:480px){.rs-page{--z-window:.22;--z-hero-phone:.26;--z-phone-pair:.36;--z-look:.36}}
+@container (max-width:360px){.rs-page{--z-window:.19;--z-hero-phone:.22;--z-phone:.62;--z-phone-live:.68;--z-phone-pair:.32;--z-look:.28}}

@@ -1,5 +1,7 @@
 /* Synced from diet-tracker v3.0.0 (6220690fc8223f63690632f2ace4a0ccd3f8f965), src/css/tokens.css.
-   Written by scripts/sync-tokens.mjs. Do not edit: change the app and re-sync. */
+   Written by scripts/sync-tokens.mjs. Do not edit: change the app and re-sync.
+   The app's fonts and base layers are left out: the site declares the design's
+   own font files in site.css, and keeps the design's document floor. */
 
 /* ============================================================================
    tokens.css — Rise v3.0 design tokens
@@ -23,64 +25,6 @@
 
    OFFLINE: nothing here loads from a network. Fonts are vendored and precached.
    ========================================================================== */
-
-/* ---------------------------------------------------------------- fonts --- */
-@font-face {
-  font-family: "Fraunces";
-  src: url("/assets/fonts/fraunces-normal.woff2") format("woff2");
-  font-weight: 100 900;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: "Fraunces";
-  src: url("/assets/fonts/fraunces-italic.woff2") format("woff2");
-  font-weight: 100 900;
-  font-style: italic;
-  font-display: swap;
-}
-@font-face {
-  font-family: "Atkinson Next";
-  src: url("/assets/fonts/atkinson-next.woff2") format("woff2");
-  font-weight: 200 800;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: "Newsreader";
-  src: url("/assets/fonts/newsreader-normal.woff2") format("woff2");
-  font-weight: 400 500;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: "Newsreader";
-  src: url("/assets/fonts/newsreader-italic.woff2") format("woff2");
-  font-weight: 400;
-  font-style: italic;
-  font-display: swap;
-}
-@font-face {
-  font-family: "Barlow Semi Condensed";
-  src: url("/assets/fonts/barlow-semi-condensed-500.woff2") format("woff2");
-  font-weight: 500;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: "Barlow Semi Condensed";
-  src: url("/assets/fonts/barlow-semi-condensed-600.woff2") format("woff2");
-  font-weight: 600;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: "Barlow Semi Condensed";
-  src: url("/assets/fonts/barlow-semi-condensed-700.woff2") format("woff2");
-  font-weight: 700;
-  font-style: normal;
-  font-display: swap;
-}
 
 /* ------------------------------------------------------------ foundation --- */
 /* ---------- shared: spacing, motion, sizing (Look-independent) ---------- */
@@ -610,59 +554,4 @@
 /* --nav-ink on Reel light's sunken fill is 2.03:1. */
 [data-look="reel"]:not([data-theme="dark"]) {
   --sidenav-ink: var(--ink-muted);
-}
-
-/* ---------------------------------------------------------------- base ---
-   The document floor. Sizes are set by the app stylesheet.                   */
-
-html {
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-body {
-  margin: 0;
-  background: var(--bg-canvas);
-  color: var(--ink);
-  font: var(--text-body-md);
-  text-wrap: pretty;
-}
-h1,
-h2,
-h3 {
-  margin: 0;
-  color: var(--ink);
-  font-family: var(--font-display);
-  font-weight: var(--display-weight);
-  font-style: var(--display-style);
-}
-p {
-  margin: 0;
-}
-a {
-  color: var(--accent-text);
-  text-decoration: none;
-}
-a:hover {
-  color: var(--accent-pressed);
-  text-decoration: underline;
-}
-code,
-pre {
-  font: var(--text-code);
-  font-variant-numeric: tabular-nums;
-}
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-  }
 }

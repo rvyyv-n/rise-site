@@ -5,8 +5,12 @@
 //   node scripts/sync-tokens.mjs v3.1.0     another tag
 //
 // Reads through `git show <tag>:<path>`, so the checkout's working tree and its
-// current branch do not matter. Writes src/css/tokens.css verbatim, under a
-// header naming the tag and commit.
+// current branch do not matter. Writes src/css/tokens.css under a header naming
+// the tag and commit: every token layer verbatim, without two app-only layers:
+//   fonts  the @font-face rules for the app's font files (see below)
+//   base   the app's document floor (box-sizing, heading, link and body
+//          resets). The design was drawn without it, so the site keeps its own.
+// The sync fails if either layer's marker is missing, rather than guess.
 //
 // Fonts are not synced. The site ships the fuller font files from the design
 // handoff (the app's Barlow and Newsreader are Latin subsets, and its Newsreader
@@ -40,10 +44,31 @@ try {
   process.exit(1);
 }
 
-const tokens = git(["show", `${TAG}:${TOKENS_SRC}`]);
+const full = git(["show", `${TAG}:${TOKENS_SRC}`]);
+
+// Each layer starts with a marker comment such as "/* ---- fonts --- */".
+const marker = (name) => {
+  const m = full.match(new RegExp(`^/\\* -+ ${name} ---.*$`, "m"));
+  if (!m) {
+    console.error(`No "${name}" layer marker in ${TOKENS_SRC} at ${TAG}. Update sync-tokens.mjs.`);
+    process.exit(1);
+  }
+  return m.index;
+};
+const fonts = marker("fonts");
+const foundation = marker("foundation");
+const base = marker("base");
+if (!(fonts < foundation && foundation < base)) {
+  console.error(`Layers in ${TOKENS_SRC} at ${TAG} are not in the expected order. Update sync-tokens.mjs.`);
+  process.exit(1);
+}
+const tokens = full.slice(0, fonts) + full.slice(foundation, base).trimEnd() + "\n";
+
 const header =
   `/* Synced from diet-tracker ${TAG} (${commit}), ${TOKENS_SRC}.\n` +
-  `   Written by scripts/sync-tokens.mjs. Do not edit: change the app and re-sync. */\n\n`;
+  `   Written by scripts/sync-tokens.mjs. Do not edit: change the app and re-sync.\n` +
+  `   The app's fonts and base layers are left out: the site declares the design's\n` +
+  `   own font files in site.css, and keeps the design's document floor. */\n\n`;
 fs.mkdirSync(path.dirname(TOKENS_OUT), { recursive: true });
 fs.writeFileSync(TOKENS_OUT, header + tokens);
 

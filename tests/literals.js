@@ -11,7 +11,10 @@ export const TOKEN_FILES = ["src/css/tokens.css", "src/css/site-tokens.css"];
 // values rather than being rewritten onto new tokens. This is a ratchet: each
 // count must match exactly, and is lowered here when a literal goes, so the
 // list only ever shrinks. Every other file holds none.
-export const LEFTOVER = {};
+export const LEFTOVER = {
+  // The design's own stylesheet, minus its site tokens (now in site-tokens.css).
+  "src/css/site.css": { hex: 0, px: 93 },
+};
 
 const SKIP_DIRS = new Set(["node_modules", "dist", "private", ".git", ".wrangler"]);
 

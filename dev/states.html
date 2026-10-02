@@ -1,0 +1,252 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rise website states</title>
+<link rel="stylesheet" href="/src/css/index.css">
+</head>
+<body>
+<!-- Dev only, never built or deployed: every control in default, hover, focus and
+     pressed, ported from the design's States.dc.html to compare with states.jpg.
+     Open it from the dev server at /dev/states.html. App screens arrive in S6. -->
+<div style="width: 1440px; height: 1560px; box-sizing: border-box; display: flex; flex-direction: column">
+<div class="rs-site" data-look="reel" data-theme="dark" style="flex-grow: 1; box-sizing: border-box; padding: 36px 48px; display: grid; grid-template-columns: 660px minmax(0, 1fr); gap: 48px; background-color: var(--bg-canvas); background-image: var(--texture); color: var(--ink); font-family: var(--font-body); font-size: var(--type-body); line-height: 1.5">
+<div style="display: flex; flex-direction: column; gap: 22px">
+<h2 style="margin: 0; font-family: var(--font-display); font-weight: var(--display-weight); font-style: var(--due-title-style); font-size: var(--type-display-lg); line-height: 1.1">Reel dark</h2>
+<div>
+<div class="rs-label" style="color: var(--ink-muted)">Primary CTA</div>
+<div style="margin-top: 10px; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px">
+<div style="display: flex; flex-direction: column; align-items: flex-start; gap: 8px"><a class="rs-cta rs-cta-hero" href="#">Open Rise</a><span style="font-size: var(--type-small); color: var(--ink-muted)">Default</span></div>
+<div style="display: flex; flex-direction: column; align-items: flex-start; gap: 8px"><a class="rs-cta rs-cta-hero is-hover" href="#">Open Rise</a><span style="font-size: var(--type-small); color: var(--ink-muted)">Hover</span></div>
+<div style="display: flex; flex-direction: column; align-items: flex-start; gap: 8px"><a class="rs-cta rs-cta-hero is-focus" href="#">Open Rise</a><span style="font-size: var(--type-small); color: var(--ink-muted)">Focus</span></div>
+<div style="display: flex; flex-direction: column; align-items: flex-start; gap: 8px"><a class="rs-cta rs-cta-hero is-pressed" href="#">Open Rise</a><span style="font-size: var(--type-small); color: var(--ink-muted)">Pressed</span></div>
+</div>
+</div>
+<div>
+<div class="rs-label" style="color: var(--ink-muted)">Secondary CTA</div>
+<div style="margin-top: 10px; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px">
+<div style="display: flex; flex-direction: column; align-items: flex-start; gap: 8px"><a class="rs-cta rs-cta-secondary" href="#">Android</a><span style="font-size: var(--type-small); color: var(--ink-muted)">Default</span></div>
+<div style="display: flex; flex-direction: column; align-items: flex-start; gap: 8px"><a class="rs-cta rs-cta-secondary is-hover" href="#">Android</a><span style="font-size: var(--type-small); color: var(--ink-muted)">Hover</span></div>
+<div style="display: flex; flex-direction: column; align-items: flex-start; gap: 8px"><a class="rs-cta rs-cta-secondary is-focus" href="#">Android</a><span style="font-size: var(--type-small); color: var(--ink-muted)">Focus</span></div>
+<div style="display: flex; flex-direction: column; align-items: flex-start; gap: 8px"><a class="rs-cta rs-cta-secondary is-pressed" href="#">Android</a><span style="font-size: var(--type-small); color: var(--ink-muted)">Pressed</span></div>
+</div>
+</div>
+<div>
+<div class="rs-label" style="color: var(--ink-muted)">Text link and nav link</div>
+<div style="margin-top: 6px; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px">
+<div style="display: flex; flex-direction: column; align-items: flex-start; gap: 4px"><a class="rs-link" href="#">Privacy</a><a class="rs-navlink" href="#" style="margin-left: -12px">Changelog</a><span style="font-size: var(--type-small); color: var(--ink-muted)">Default</span></div>
+<div style="display: flex; flex-direction: column; align-items: flex-start; gap: 4px"><a class="rs-link is-hover" href="#">Privacy</a><a class="rs-navlink is-hover" href="#" style="margin-left: -12px">Changelog</a><span style="font-size: var(--type-small); color: var(--ink-muted)">Hover</span></div>
+<div style="display: flex; flex-direction: column; align-items: flex-start; gap: 4px"><a class="rs-link is-focus" href="#">Privacy</a><a class="rs-navlink is-focus" href="#" style="margin-left: -12px">Changelog</a><span style="font-size: var(--type-small); color: var(--ink-muted)">Focus</span></div>
+<div style="display: flex; flex-direction: column; align-items: flex-start; gap: 4px"><a class="rs-link is-pressed" href="#">Privacy</a><a class="rs-navlink is-pressed" href="#" style="margin-left: -12px">Changelog</a><span style="font-size: var(--type-small); color: var(--ink-muted)">Pressed</span></div>
+</div>
+</div>
+<div>
+<div class="rs-label" style="color: var(--ink-muted)">Theme switch</div>
+<div style="margin-top: 10px; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px">
+<div style="display: flex; flex-direction: column; align-items: flex-start; gap: 8px"><button type="button" class="rs-theme" role="switch" aria-checked="false" aria-label="Dark theme, off"><span class="rs-theme-knob" aria-hidden="true"><span class="rs-theme-sun"></span><svg class="rs-theme-moon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path></svg></span><span class="rs-theme-star is-a" aria-hidden="true"></span><span class="rs-theme-star is-b" aria-hidden="true"></span></button><span style="font-size: var(--type-small); color: var(--ink-muted)">Light</span></div>
+<div style="display: flex; flex-direction: column; align-items: flex-start; gap: 8px"><button type="button" class="rs-theme" role="switch" aria-checked="true" aria-label="Dark theme, on"><span class="rs-theme-knob" aria-hidden="true"><span class="rs-theme-sun"></span><svg class="rs-theme-moon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path></svg></span><span class="rs-theme-star is-a" aria-hidden="true"></span><span class="rs-theme-star is-b" aria-hidden="true"></span></button><span style="font-size: var(--type-small); color: var(--ink-muted)">Dark</span></div>
+<div style="display: flex; flex-direction: column; align-items: flex-start; gap: 8px"><button type="button" class="rs-theme is-hover" role="switch" aria-checked="false" aria-label="Dark theme, hover"><span class="rs-theme-knob" aria-hidden="true"><span class="rs-theme-sun"></span><svg class="rs-theme-moon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path></svg></span><span class="rs-theme-star is-a" aria-hidden="true"></span><span class="rs-theme-star is-b" aria-hidden="true"></span></button><span style="font-size: var(--type-small); color: var(--ink-muted)">Hover</span></div>
+<div style="display: flex; flex-direction: column; align-items: flex-start; gap: 8px"><button type="button" class="rs-theme is-focus" role="switch" aria-checked="false" aria-label="Dark theme, focus"><span class="rs-theme-knob" aria-hidden="true"><span class="rs-theme-sun"></span><svg class="rs-theme-moon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path></svg></span><span class="rs-theme-star is-a" aria-hidden="true"></span><span class="rs-theme-star is-b" aria-hidden="true"></span></button><span style="font-size: var(--type-small); color: var(--ink-muted)">Focus</span></div>
+</div>
+</div>
+<div>
+<div class="rs-label" style="color: var(--ink-muted)">Look switch</div>
+<div style="margin-top: 10px; display: flex; align-items: center; gap: 12px">
+<div role="radiogroup" style="width: 160px; display: grid; grid-template-columns: repeat(2,1fr); gap: 4px; padding: 4px; height: 48px; box-sizing: border-box; border-radius: 24px; background: var(--bg-sunken)"><button type="button" role="radio" aria-checked="false" style="border: 0; border-radius: 20px; cursor: pointer; font-family: var(--font-body); font-size: 15px; font-weight: 700; background: transparent; color: var(--ink-muted)">Paper</button><button type="button" role="radio" aria-checked="true" style="border: 0; border-radius: 20px; cursor: pointer; font-family: var(--font-body); font-size: 15px; font-weight: 700; background: var(--ink); color: var(--bg-canvas)">Reel</button></div>
+<span style="font-size: var(--type-small); color: var(--ink-muted)">The Rise Segmented control, unchanged</span>
+</div>
+</div>
+</div>
+<div>
+<div class="rs-label" style="color: var(--ink-muted)">Look picker tile</div>
+<div style="margin-top: 10px; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 12px">
+<div style="display: flex; flex-direction: column; align-items: center; gap: 8px">
+<div style="position: relative; display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 10px 6px 8px">
+<div class="rs-phone" aria-hidden="true" style="--z-phone: .24">
+<div class="rs-phone-screen"></div>
+</div>
+<div aria-hidden="true" style="display: flex; align-items: center; gap: 6px; min-height: 24px">
+<span style="width: 18px; height: 18px; border-radius: 50%; flex: none; display: inline-block; box-shadow: inset 0 0 0 1.5px var(--ink-soft)"></span>
+<span style="font-size: var(--type-small); font-weight: 700">Reel</span>
+</div>
+<button type="button" class="rs-look" aria-label="Default"></button>
+</div>
+<span style="font-size: var(--type-small); color: var(--ink-muted)">Default</span>
+</div>
+<div style="display: flex; flex-direction: column; align-items: center; gap: 8px">
+<div style="position: relative; display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 10px 6px 8px">
+<div class="rs-phone" aria-hidden="true" style="--z-phone: .24">
+<div class="rs-phone-screen"></div>
+</div>
+<div aria-hidden="true" style="display: flex; align-items: center; gap: 6px; min-height: 24px">
+<span style="width: 18px; height: 18px; border-radius: 50%; flex: none; display: inline-block; box-shadow: inset 0 0 0 1.5px var(--ink-soft)"></span>
+<span style="font-size: var(--type-small); font-weight: 700">Reel</span>
+</div>
+<button type="button" class="rs-look is-hover" aria-label="Hover"></button>
+</div>
+<span style="font-size: var(--type-small); color: var(--ink-muted)">Hover</span>
+</div>
+<div style="display: flex; flex-direction: column; align-items: center; gap: 8px">
+<div style="position: relative; display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 10px 6px 8px">
+<div class="rs-phone" aria-hidden="true" style="--z-phone: .24">
+<div class="rs-phone-screen"></div>
+</div>
+<div aria-hidden="true" style="display: flex; align-items: center; gap: 6px; min-height: 24px">
+<span style="width: 18px; height: 18px; border-radius: 50%; flex: none; display: inline-block; box-shadow: inset 0 0 0 1.5px var(--ink-soft)"></span>
+<span style="font-size: var(--type-small); font-weight: 700">Reel</span>
+</div>
+<button type="button" class="rs-look is-focus" aria-label="Focus"></button>
+</div>
+<span style="font-size: var(--type-small); color: var(--ink-muted)">Focus</span>
+</div>
+<div style="display: flex; flex-direction: column; align-items: center; gap: 8px">
+<div style="position: relative; display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 10px 6px 8px">
+<div class="rs-phone" aria-hidden="true" style="--z-phone: .24">
+<div class="rs-phone-screen"></div>
+</div>
+<div aria-hidden="true" style="display: flex; align-items: center; gap: 6px; min-height: 24px">
+<span style="width: 18px; height: 18px; border-radius: 50%; flex: none; display: inline-block; box-shadow: inset 0 0 0 1.5px var(--ink-soft)"></span>
+<span style="font-size: var(--type-small); font-weight: 700">Reel</span>
+</div>
+<button type="button" class="rs-look is-pressed" aria-label="Pressed"></button>
+</div>
+<span style="font-size: var(--type-small); color: var(--ink-muted)">Pressed</span>
+</div>
+<div style="display: flex; flex-direction: column; align-items: center; gap: 8px">
+<div style="position: relative; display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 10px 6px 8px">
+<div class="rs-phone" aria-hidden="true" style="--z-phone: .24">
+<div class="rs-phone-screen"></div>
+</div>
+<div aria-hidden="true" style="display: flex; align-items: center; gap: 6px; min-height: 24px">
+<span style="width: 18px; height: 18px; border-radius: 50%; flex: none; display: inline-block; box-shadow: inset 0 0 0 6px var(--ink)"></span>
+<span style="font-size: var(--type-small); font-weight: 700">Reel</span>
+</div>
+<button type="button" class="rs-look is-selected" aria-label="Selected"></button>
+</div>
+<span style="font-size: var(--type-small); color: var(--ink-muted)">Selected</span>
+</div>
+</div>
+</div>
+</div>
+<div class="rs-site" data-look="paper" data-theme="light" style="flex-grow: 1; box-sizing: border-box; padding: 36px 48px; display: grid; grid-template-columns: 660px minmax(0, 1fr); gap: 48px; background-color: var(--bg-canvas); background-image: var(--texture); color: var(--ink); font-family: var(--font-body); font-size: var(--type-body); line-height: 1.5">
+<div style="display: flex; flex-direction: column; gap: 22px">
+<h2 style="margin: 0; font-family: var(--font-display); font-weight: var(--display-weight); font-style: var(--due-title-style); font-size: var(--type-display-lg); line-height: 1.1">Paper light</h2>
+<div>
+<div class="rs-label" style="color: var(--ink-muted)">Primary CTA</div>
+<div style="margin-top: 10px; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px">
+<div style="display: flex; flex-direction: column; align-items: flex-start; gap: 8px"><a class="rs-cta rs-cta-hero" href="#">Open Rise</a><span style="font-size: var(--type-small); color: var(--ink-muted)">Default</span></div>
+<div style="display: flex; flex-direction: column; align-items: flex-start; gap: 8px"><a class="rs-cta rs-cta-hero is-hover" href="#">Open Rise</a><span style="font-size: var(--type-small); color: var(--ink-muted)">Hover</span></div>
+<div style="display: flex; flex-direction: column; align-items: flex-start; gap: 8px"><a class="rs-cta rs-cta-hero is-focus" href="#">Open Rise</a><span style="font-size: var(--type-small); color: var(--ink-muted)">Focus</span></div>
+<div style="display: flex; flex-direction: column; align-items: flex-start; gap: 8px"><a class="rs-cta rs-cta-hero is-pressed" href="#">Open Rise</a><span style="font-size: var(--type-small); color: var(--ink-muted)">Pressed</span></div>
+</div>
+</div>
+<div>
+<div class="rs-label" style="color: var(--ink-muted)">Secondary CTA</div>
+<div style="margin-top: 10px; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px">
+<div style="display: flex; flex-direction: column; align-items: flex-start; gap: 8px"><a class="rs-cta rs-cta-secondary" href="#">Android</a><span style="font-size: var(--type-small); color: var(--ink-muted)">Default</span></div>
+<div style="display: flex; flex-direction: column; align-items: flex-start; gap: 8px"><a class="rs-cta rs-cta-secondary is-hover" href="#">Android</a><span style="font-size: var(--type-small); color: var(--ink-muted)">Hover</span></div>
+<div style="display: flex; flex-direction: column; align-items: flex-start; gap: 8px"><a class="rs-cta rs-cta-secondary is-focus" href="#">Android</a><span style="font-size: var(--type-small); color: var(--ink-muted)">Focus</span></div>
+<div style="display: flex; flex-direction: column; align-items: flex-start; gap: 8px"><a class="rs-cta rs-cta-secondary is-pressed" href="#">Android</a><span style="font-size: var(--type-small); color: var(--ink-muted)">Pressed</span></div>
+</div>
+</div>
+<div>
+<div class="rs-label" style="color: var(--ink-muted)">Text link and nav link</div>
+<div style="margin-top: 6px; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px">
+<div style="display: flex; flex-direction: column; align-items: flex-start; gap: 4px"><a class="rs-link" href="#">Privacy</a><a class="rs-navlink" href="#" style="margin-left: -12px">Changelog</a><span style="font-size: var(--type-small); color: var(--ink-muted)">Default</span></div>
+<div style="display: flex; flex-direction: column; align-items: flex-start; gap: 4px"><a class="rs-link is-hover" href="#">Privacy</a><a class="rs-navlink is-hover" href="#" style="margin-left: -12px">Changelog</a><span style="font-size: var(--type-small); color: var(--ink-muted)">Hover</span></div>
+<div style="display: flex; flex-direction: column; align-items: flex-start; gap: 4px"><a class="rs-link is-focus" href="#">Privacy</a><a class="rs-navlink is-focus" href="#" style="margin-left: -12px">Changelog</a><span style="font-size: var(--type-small); color: var(--ink-muted)">Focus</span></div>
+<div style="display: flex; flex-direction: column; align-items: flex-start; gap: 4px"><a class="rs-link is-pressed" href="#">Privacy</a><a class="rs-navlink is-pressed" href="#" style="margin-left: -12px">Changelog</a><span style="font-size: var(--type-small); color: var(--ink-muted)">Pressed</span></div>
+</div>
+</div>
+<div>
+<div class="rs-label" style="color: var(--ink-muted)">Theme switch</div>
+<div style="margin-top: 10px; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px">
+<div style="display: flex; flex-direction: column; align-items: flex-start; gap: 8px"><button type="button" class="rs-theme" role="switch" aria-checked="false" aria-label="Dark theme, off"><span class="rs-theme-knob" aria-hidden="true"><span class="rs-theme-sun"></span><svg class="rs-theme-moon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path></svg></span><span class="rs-theme-star is-a" aria-hidden="true"></span><span class="rs-theme-star is-b" aria-hidden="true"></span></button><span style="font-size: var(--type-small); color: var(--ink-muted)">Light</span></div>
+<div style="display: flex; flex-direction: column; align-items: flex-start; gap: 8px"><button type="button" class="rs-theme" role="switch" aria-checked="true" aria-label="Dark theme, on"><span class="rs-theme-knob" aria-hidden="true"><span class="rs-theme-sun"></span><svg class="rs-theme-moon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path></svg></span><span class="rs-theme-star is-a" aria-hidden="true"></span><span class="rs-theme-star is-b" aria-hidden="true"></span></button><span style="font-size: var(--type-small); color: var(--ink-muted)">Dark</span></div>
+<div style="display: flex; flex-direction: column; align-items: flex-start; gap: 8px"><button type="button" class="rs-theme is-hover" role="switch" aria-checked="false" aria-label="Dark theme, hover"><span class="rs-theme-knob" aria-hidden="true"><span class="rs-theme-sun"></span><svg class="rs-theme-moon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path></svg></span><span class="rs-theme-star is-a" aria-hidden="true"></span><span class="rs-theme-star is-b" aria-hidden="true"></span></button><span style="font-size: var(--type-small); color: var(--ink-muted)">Hover</span></div>
+<div style="display: flex; flex-direction: column; align-items: flex-start; gap: 8px"><button type="button" class="rs-theme is-focus" role="switch" aria-checked="false" aria-label="Dark theme, focus"><span class="rs-theme-knob" aria-hidden="true"><span class="rs-theme-sun"></span><svg class="rs-theme-moon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path></svg></span><span class="rs-theme-star is-a" aria-hidden="true"></span><span class="rs-theme-star is-b" aria-hidden="true"></span></button><span style="font-size: var(--type-small); color: var(--ink-muted)">Focus</span></div>
+</div>
+</div>
+<div>
+<div class="rs-label" style="color: var(--ink-muted)">Look switch</div>
+<div style="margin-top: 10px; display: flex; align-items: center; gap: 12px">
+<div role="radiogroup" style="width: 160px; display: grid; grid-template-columns: repeat(2,1fr); gap: 4px; padding: 4px; height: 48px; box-sizing: border-box; border-radius: 24px; background: var(--bg-sunken)"><button type="button" role="radio" aria-checked="true" style="border: 0; border-radius: 20px; cursor: pointer; font-family: var(--font-body); font-size: 15px; font-weight: 700; background: var(--ink); color: var(--bg-canvas)">Paper</button><button type="button" role="radio" aria-checked="false" style="border: 0; border-radius: 20px; cursor: pointer; font-family: var(--font-body); font-size: 15px; font-weight: 700; background: transparent; color: var(--ink-muted)">Reel</button></div>
+<span style="font-size: var(--type-small); color: var(--ink-muted)">The Rise Segmented control, unchanged</span>
+</div>
+</div>
+</div>
+<div>
+<div class="rs-label" style="color: var(--ink-muted)">Look picker tile</div>
+<div style="margin-top: 10px; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 12px">
+<div style="display: flex; flex-direction: column; align-items: center; gap: 8px">
+<div style="position: relative; display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 10px 6px 8px">
+<div class="rs-phone" aria-hidden="true" style="--z-phone: .24">
+<div class="rs-phone-screen"></div>
+</div>
+<div aria-hidden="true" style="display: flex; align-items: center; gap: 6px; min-height: 24px">
+<span style="width: 18px; height: 18px; border-radius: 50%; flex: none; display: inline-block; box-shadow: inset 0 0 0 1.5px var(--ink-soft)"></span>
+<span style="font-size: var(--type-small); font-weight: 700">Paper</span>
+</div>
+<button type="button" class="rs-look" aria-label="Default"></button>
+</div>
+<span style="font-size: var(--type-small); color: var(--ink-muted)">Default</span>
+</div>
+<div style="display: flex; flex-direction: column; align-items: center; gap: 8px">
+<div style="position: relative; display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 10px 6px 8px">
+<div class="rs-phone" aria-hidden="true" style="--z-phone: .24">
+<div class="rs-phone-screen"></div>
+</div>
+<div aria-hidden="true" style="display: flex; align-items: center; gap: 6px; min-height: 24px">
+<span style="width: 18px; height: 18px; border-radius: 50%; flex: none; display: inline-block; box-shadow: inset 0 0 0 1.5px var(--ink-soft)"></span>
+<span style="font-size: var(--type-small); font-weight: 700">Paper</span>
+</div>
+<button type="button" class="rs-look is-hover" aria-label="Hover"></button>
+</div>
+<span style="font-size: var(--type-small); color: var(--ink-muted)">Hover</span>
+</div>
+<div style="display: flex; flex-direction: column; align-items: center; gap: 8px">
+<div style="position: relative; display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 10px 6px 8px">
+<div class="rs-phone" aria-hidden="true" style="--z-phone: .24">
+<div class="rs-phone-screen"></div>
+</div>
+<div aria-hidden="true" style="display: flex; align-items: center; gap: 6px; min-height: 24px">
+<span style="width: 18px; height: 18px; border-radius: 50%; flex: none; display: inline-block; box-shadow: inset 0 0 0 1.5px var(--ink-soft)"></span>
+<span style="font-size: var(--type-small); font-weight: 700">Paper</span>
+</div>
+<button type="button" class="rs-look is-focus" aria-label="Focus"></button>
+</div>
+<span style="font-size: var(--type-small); color: var(--ink-muted)">Focus</span>
+</div>
+<div style="display: flex; flex-direction: column; align-items: center; gap: 8px">
+<div style="position: relative; display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 10px 6px 8px">
+<div class="rs-phone" aria-hidden="true" style="--z-phone: .24">
+<div class="rs-phone-screen"></div>
+</div>
+<div aria-hidden="true" style="display: flex; align-items: center; gap: 6px; min-height: 24px">
+<span style="width: 18px; height: 18px; border-radius: 50%; flex: none; display: inline-block; box-shadow: inset 0 0 0 1.5px var(--ink-soft)"></span>
+<span style="font-size: var(--type-small); font-weight: 700">Paper</span>
+</div>
+<button type="button" class="rs-look is-pressed" aria-label="Pressed"></button>
+</div>
+<span style="font-size: var(--type-small); color: var(--ink-muted)">Pressed</span>
+</div>
+<div style="display: flex; flex-direction: column; align-items: center; gap: 8px">
+<div style="position: relative; display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 10px 6px 8px">
+<div class="rs-phone" aria-hidden="true" style="--z-phone: .24">
+<div class="rs-phone-screen"></div>
+</div>
+<div aria-hidden="true" style="display: flex; align-items: center; gap: 6px; min-height: 24px">
+<span style="width: 18px; height: 18px; border-radius: 50%; flex: none; display: inline-block; box-shadow: inset 0 0 0 6px var(--ink)"></span>
+<span style="font-size: var(--type-small); font-weight: 700">Paper</span>
+</div>
+<button type="button" class="rs-look is-selected" aria-label="Selected"></button>
+</div>
+<span style="font-size: var(--type-small); color: var(--ink-muted)">Selected</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</body>
+</html>

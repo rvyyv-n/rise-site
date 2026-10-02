@@ -1,0 +1,171 @@
+/* Rise website: fonts, device frames, states and motion. Ported from the design handoff's
+   site.css as exported: only the font paths changed, and the site tokens moved to
+   site-tokens.css. Colour, type and spacing come from the Rise tokens (tokens.css). */
+
+/* ---------- fonts: the bundled faces only ---------- */
+@font-face{font-family:'Fraunces';src:url("/assets/fonts/fraunces-normal.woff2") format("woff2");font-weight:100 900;font-style:normal;font-display:swap}
+@font-face{font-family:'Fraunces';src:url("/assets/fonts/fraunces-italic.woff2") format("woff2");font-weight:100 900;font-style:italic;font-display:swap}
+@font-face{font-family:'Atkinson Next';src:url("/assets/fonts/atkinson-next.woff2") format("woff2");font-weight:200 800;font-style:normal;font-display:swap}
+@font-face{font-family:'Newsreader';src:url("/assets/fonts/newsreader-normal.woff2") format("woff2");font-weight:200 800;font-style:normal;font-display:swap}
+@font-face{font-family:'Newsreader';src:url("/assets/fonts/newsreader-italic.woff2") format("woff2");font-weight:200 800;font-style:italic;font-display:swap}
+@font-face{font-family:'Barlow Semi Condensed';src:url("/assets/fonts/barlow-semi-condensed-500.woff2") format("woff2");font-weight:400 500;font-style:normal;font-display:swap}
+@font-face{font-family:'Barlow Semi Condensed';src:url("/assets/fonts/barlow-semi-condensed-600.woff2") format("woff2");font-weight:600;font-style:normal;font-display:swap}
+@font-face{font-family:'Barlow Semi Condensed';src:url("/assets/fonts/barlow-semi-condensed-700.woff2") format("woff2");font-weight:700;font-style:normal;font-display:swap}
+
+/* ---------- the site container (its tokens are in site-tokens.css) ---------- */
+.rs-site{
+  container-type:inline-size;
+  overflow-x:clip;
+}
+.rs-site section[id]{scroll-margin-top:72px}
+
+/* ---------- Look and theme changes: one view transition for the whole page ---------- */
+::view-transition-old(root),::view-transition-new(root){animation-duration:900ms;animation-timing-function:cubic-bezier(.65,0,.35,1)}
+html.rs-wipe::view-transition-old(root),html.rs-wipe::view-transition-new(root){animation:none;mix-blend-mode:normal}
+html.rs-wipe::view-transition-old(root){z-index:0}
+html.rs-wipe::view-transition-new(root){z-index:1}
+
+/* ---------- layout helpers ---------- */
+.rs-wrap{box-sizing:border-box;max-width:var(--container-site);margin-inline:auto;padding-inline:var(--gutter-site)}
+.rs-label{font-family:var(--font-caption);font-size:var(--label-size);font-weight:600;letter-spacing:var(--label-tracking);text-transform:var(--label-transform)}
+.rs-step::before{content:"";display:none;position:absolute;left:calc(var(--gutter-site) * -1);right:calc(var(--gutter-site) * -1);top:10px;height:1px;background:linear-gradient(90deg,transparent,var(--horizon) 12%,var(--horizon) 88%,transparent)}
+.rs-scroll-top{position:absolute;left:0;right:0;top:0}
+.rs-scroll-end{position:absolute;left:0;right:0;bottom:0}
+@container (max-width:900px){
+  .rs-stack-sm{grid-template-columns:minmax(0,1fr)!important}
+  .rs-two-sm{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+  .rs-first-sm{order:-1}
+  .rs-hide-sm{display:none!important}
+  .rs-how-horizon{display:none}
+  .rs-step::before{display:block}
+}
+
+/* ---------- header: sticks, slims, and carries the sun along the horizon as the page scrolls ---------- */
+.rs-header{position:sticky;top:0;z-index:40;transition:background-color 400ms var(--ease-site),transform 500ms var(--ease-site)}
+.rs-header.is-stuck{background-color:var(--bg-canvas);background-image:var(--texture)}
+.rs-header.is-away{transform:translateY(-100%)}
+.rs-brand{display:inline-flex;align-items:center;min-height:44px;border-radius:var(--radius-pill);color:var(--ink);text-decoration:none;outline:none}
+.rs-brand:focus-visible{box-shadow:var(--focus-ring)}
+.rs-progress-track{position:relative;height:0}
+.rs-header-inner{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px 16px;padding-block:16px;transition:padding 400ms var(--ease-site)}
+.rs-header.is-stuck .rs-header-inner{padding-block:6px}
+.rs-progress{position:relative;height:1px;background:linear-gradient(90deg,transparent,var(--horizon) 12%,var(--horizon) 88%,transparent)}
+.rs-progress-sun{position:absolute;top:-7px;left:calc(var(--gutter-site) + var(--scroll,0) * (100% - var(--gutter-site) * 2 - 14px));width:14px;height:14px;border-radius:50%;background:var(--sun);box-shadow:0 0 12px 3px var(--sun-halo)}
+
+/* ---------- device frames ---------- */
+.rs-phone{zoom:var(--z-phone);flex:none;width:390px;padding:var(--frame-bezel);border-radius:var(--frame-radius);background:var(--frame-ink);box-shadow:0 0 0 1px var(--line-strong),var(--shadow-float);pointer-events:none}
+.rs-phone.is-hero{zoom:var(--z-hero-phone)}
+.rs-phone.is-pair{zoom:var(--z-phone-pair)}
+.rs-phone.is-look{zoom:var(--z-look)}
+.rs-phone.is-live{zoom:var(--z-phone-live);pointer-events:auto}
+.rs-phone-screen{position:relative;width:390px;height:844px;overflow:hidden;border-radius:calc(var(--frame-radius) - var(--frame-bezel))}
+.rs-window{zoom:var(--z-window);flex:none;width:1440px;overflow:hidden;border-radius:var(--window-radius);background:var(--bg-raised);box-shadow:0 0 0 1px var(--line-strong),var(--shadow-float);pointer-events:none}
+.rs-window-bar{height:var(--window-bar);display:flex;align-items:center;gap:8px;padding:0 14px;background:var(--bg-sunken)}
+.rs-window-bar span{width:12px;height:12px;border-radius:50%;background:var(--line-strong)}
+.rs-window-screen{position:relative;width:1440px;height:900px;overflow:hidden}
+
+/* ---------- CTAs ---------- */
+.rs-cta{box-sizing:border-box;display:inline-flex;align-items:center;justify-content:center;gap:8px;height:var(--button-h);padding:0 24px;border-radius:var(--radius-pill);font-family:var(--font-body);font-size:16px;font-weight:700;line-height:1;text-decoration:none;white-space:nowrap;cursor:pointer;outline:none;transition:transform var(--dur-instant) var(--ease-out),background-color var(--dur-fast) var(--ease-out),box-shadow var(--dur-fast) var(--ease-out)}
+.rs-cta-hero{position:relative;isolation:isolate;overflow:hidden;background:var(--cta-hero-bg);color:var(--cta-hero-ink);box-shadow:var(--cta-hero-glow);font-size:var(--cta-hero-size);letter-spacing:var(--cta-hero-tracking);text-transform:var(--cta-hero-transform)}
+/* the hover tone wells up from where the pointer came in */
+.rs-cta-hero::before{content:"";position:absolute;inset:0;z-index:-1;border-radius:inherit;background:var(--cta-hero-wash);clip-path:circle(0 at var(--mx,50%) var(--my,50%));transition:clip-path 550ms var(--ease-site)}
+.rs-cta-secondary{background-color:transparent;color:var(--ink);box-shadow:inset 0 0 0 1.5px var(--line-strong)}
+.rs-cta-hero.is-hover::before{clip-path:circle(150% at 50% 50%)}
+.rs-cta-secondary.is-hover{background-color:var(--bg-sunken)}
+@media (hover:hover) and (pointer:fine){
+  .rs-cta-hero:hover::before{clip-path:circle(150% at var(--mx,50%) var(--my,50%))}
+  .rs-cta-secondary:hover{background-color:var(--bg-sunken)}
+  .rs-navlink:hover{color:var(--ink)}
+  .rs-link:hover{text-decoration-thickness:2px}
+  .rs-look:hover{box-shadow:inset 0 0 0 1.5px var(--line-strong)}
+  .rs-theme:hover{box-shadow:inset 0 0 0 1.5px var(--ink-soft)}
+}
+.rs-cta:active,.rs-cta.is-pressed{transform:scale(.97)}
+.rs-cta-hero:active,.rs-cta-hero.is-pressed{background:var(--cta-hero-bg-pressed)}
+.rs-cta-secondary:active,.rs-cta-secondary.is-pressed{background-color:var(--bg-sunken);box-shadow:inset 0 0 0 1.5px var(--ink-soft)}
+.rs-cta-hero:focus-visible,.rs-cta-hero.is-focus{box-shadow:var(--focus-ring)}
+.rs-cta-secondary:focus-visible,.rs-cta-secondary.is-focus{box-shadow:inset 0 0 0 1.5px var(--line-strong),var(--focus-ring)}
+
+@container (max-width:480px){.rs-cta{padding:0 17px}}
+
+.rs-cta-due{background:var(--due-cta-bg);color:var(--due-cta-ink)}
+.rs-cta-due.is-hover{box-shadow:inset 0 0 0 999px rgba(140,130,120,.16)}
+@media (hover:hover) and (pointer:fine){.rs-cta-due:hover{box-shadow:inset 0 0 0 999px rgba(140,130,120,.16)}}
+.rs-cta-due:active,.rs-cta-due.is-pressed{box-shadow:inset 0 0 0 999px rgba(140,130,120,.28)}
+.rs-cta-due:focus-visible,.rs-cta-due.is-focus{box-shadow:0 0 0 2px var(--due-ink)}
+.rs-ico{flex:none;width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.rs-glyph{flex:none;display:grid;place-items:center;width:48px;height:48px;border-radius:50%;background-color:var(--bg-sunken);color:var(--ink)}
+.rs-step-chip{display:inline-flex;align-items:center;min-height:36px;padding:0 14px;border-radius:var(--radius-pill);box-shadow:inset 0 0 0 1.5px var(--due-secondary-edge);font-size:var(--type-small);font-weight:700;white-space:nowrap}
+
+/* ---------- links ---------- */
+.rs-navlink{display:inline-flex;align-items:center;min-height:44px;padding:0 12px;border-radius:var(--radius-pill);color:var(--ink-muted);text-decoration:none;outline:none;font-family:var(--font-caption);font-size:var(--label-size);font-weight:600;letter-spacing:var(--label-tracking);text-transform:var(--label-transform);transition:color var(--dur-fast) var(--ease-out),background-color var(--dur-fast) var(--ease-out)}
+.rs-navlink.is-hover{color:var(--ink)}
+.rs-navlink:active,.rs-navlink.is-pressed{color:var(--ink);background-color:var(--bg-sunken)}
+.rs-navlink:focus-visible,.rs-navlink.is-focus{box-shadow:var(--focus-ring)}
+.rs-link{display:inline-flex;align-items:center;min-height:44px;border-radius:var(--radius-sm);color:var(--accent-text);font-weight:700;text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:.22em;outline:none;transition:background-color var(--dur-fast) var(--ease-out)}
+.rs-link.is-hover{text-decoration-thickness:2px}
+.rs-link:active,.rs-link.is-pressed{text-decoration-thickness:2px;background-color:var(--bg-sunken)}
+.rs-link:focus-visible,.rs-link.is-focus{box-shadow:var(--focus-ring)}
+
+/* ---------- Look picker tile (a transparent button over the preview) ---------- */
+.rs-look{position:absolute;inset:0;width:100%;height:100%;padding:0;border:0;border-radius:28px;background:transparent;cursor:pointer;outline:none;box-shadow:inset 0 0 0 1px var(--line);transition:box-shadow var(--dur-fast) var(--ease-out),transform var(--dur-instant) var(--ease-out)}
+.rs-look.is-hover{box-shadow:inset 0 0 0 1.5px var(--line-strong)}
+.rs-look:active,.rs-look.is-pressed{transform:scale(.98);box-shadow:inset 0 0 0 1.5px var(--ink-soft)}
+.rs-look[aria-pressed="true"],.rs-look.is-selected{box-shadow:inset 0 0 0 2px var(--ink)}
+.rs-look:focus-visible,.rs-look.is-focus{box-shadow:inset 0 0 0 1px var(--line),var(--focus-ring)}
+.rs-look[aria-pressed="true"]:focus-visible{box-shadow:inset 0 0 0 2px var(--ink),var(--focus-ring)}
+
+/* ---------- theme switch: the sun crosses the pill and becomes a crescent ---------- */
+.rs-theme{position:relative;flex:none;width:68px;height:var(--icon-button);padding:0;border:0;border-radius:var(--radius-pill);color:var(--ink);background-color:var(--bg-sunken);box-shadow:inset 0 0 0 1.5px var(--line-strong);cursor:pointer;outline:none;transition:transform var(--dur-instant) var(--ease-out),box-shadow var(--dur-fast) var(--ease-out)}
+.rs-theme-knob{position:absolute;left:8px;top:50%;width:28px;height:28px;margin-top:-14px;display:grid;place-items:center;transition:transform var(--dur-slow) var(--ease-spring)}
+.rs-theme[aria-checked="true"] .rs-theme-knob{transform:translateX(24px)}
+.rs-theme-sun,.rs-theme-moon{grid-area:1/1;transition:opacity var(--dur-base) var(--ease-out),transform var(--dur-slow) var(--ease-spring)}
+.rs-theme-sun{width:22px;height:22px;border-radius:50%;background:var(--sun);box-shadow:0 0 12px 2px var(--sun-halo)}
+.rs-theme-moon{width:22px;height:22px;fill:currentColor;opacity:0;transform:rotate(-70deg) scale(.5)}
+.rs-theme[aria-checked="true"] .rs-theme-sun{opacity:0;transform:scale(.4)}
+.rs-theme[aria-checked="true"] .rs-theme-moon{opacity:1;transform:rotate(-12deg)}
+.rs-theme-star{position:absolute;border-radius:50%;background-color:var(--ink-muted);opacity:0;transform:scale(0);transition:opacity var(--dur-base) var(--ease-out),transform var(--dur-slow) var(--ease-spring)}
+.rs-theme-star.is-a{left:15px;top:12px;width:4px;height:4px}
+.rs-theme-star.is-b{left:25px;top:27px;width:3px;height:3px}
+.rs-theme[aria-checked="true"] .rs-theme-star{opacity:1;transform:none}
+.rs-theme.is-hover{box-shadow:inset 0 0 0 1.5px var(--ink-soft)}
+.rs-theme:active,.rs-theme.is-pressed{transform:scale(.97)}
+.rs-theme:focus-visible,.rs-theme.is-focus{box-shadow:inset 0 0 0 1.5px var(--line-strong),var(--focus-ring)}
+
+/* ---------- "This device" tag ---------- */
+.rs-tag{display:inline-flex;align-items:center;height:24px;padding:0 10px;border-radius:var(--radius-pill);background-color:var(--chip-bg);color:var(--ink);font-family:var(--font-caption);font-size:var(--type-micro);font-weight:700;letter-spacing:var(--label-tracking);text-transform:var(--label-transform);white-space:nowrap}
+
+/* ---------- motion ----------
+   Reveals only hide things once the page script has added .rs-js, so with no script,
+   or with reduced motion, everything is simply there. */
+.rs-js [data-reveal]{opacity:0;transform:translateY(18px);transition:opacity var(--dur-reveal) var(--ease-site),transform var(--dur-reveal) var(--ease-site)}
+.rs-js [data-reveal="phone"]{transform:translateY(48px) rotate(2deg) scale(.97);transition:opacity 900ms var(--ease-site),transform 1200ms var(--ease-spring)}
+.rs-js [data-reveal="pop"]{transform:scale(.4);transition:opacity 300ms var(--ease-site),transform var(--dur-slow) var(--ease-spring)}
+.rs-js [data-reveal="draw"]{opacity:1;transform:none;background-repeat:no-repeat!important;background-size:0% 100%!important;transition:background-size 900ms var(--ease-site)}
+.rs-js [data-reveal="rise"]{opacity:1;transform:none;overflow:clip;overflow-clip-margin:.2em}
+.rs-js [data-reveal="rise"]>span{display:inline-block;transform:translateY(112%) rotate(3deg);transform-origin:0 100%;transition:transform 1100ms var(--ease-site);transition-delay:calc(var(--i,0) * var(--stagger-site))}
+.rs-js [data-reveal="words"]{opacity:1;transform:none}
+.rs-words .rs-w{display:inline-block;overflow:clip;overflow-clip-margin:.2em;padding:.08em .08em .16em;margin:-.08em -.08em -.16em;vertical-align:top}
+.rs-js .rs-words .rs-w>span{display:inline-block;transform:translateY(112%) rotate(3deg);transform-origin:0 100%;transition:transform 1100ms var(--ease-site);transition-delay:calc(180ms + var(--i,0) * 55ms)}
+.rs-js .rs-words.is-in .rs-w>span{transform:none}
+.rs-js [data-reveal]:not([data-reveal="rise"]):not([data-reveal="words"]){transition-delay:calc(var(--i,0) * var(--stagger-site))}
+.rs-js [data-reveal].is-in{opacity:1;transform:none}
+.rs-js [data-reveal="draw"].is-in{background-size:100% 100%!important}
+.rs-js [data-reveal="rise"].is-in>span{transform:none}
+
+/* the hero sun: rises once on load, sets when the page goes dark, rises again for light */
+@keyframes rs-sunrise{from{transform:translateY(70%)}}
+.rs-hero-sun{width:100%;height:100%;border-radius:50%;background:var(--sun);transition:transform var(--dur-sunrise) var(--ease-site);animation:rs-sunrise var(--dur-sunrise) var(--ease-site) 300ms both}
+[data-theme="dark"] .rs-hero-sun{transform:translateY(27%)}
+@media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
+
+/* the hero devices lean a little towards the pointer */
+.rs-tilt{transform:perspective(1400px) rotateX(var(--tx,0deg)) rotateY(var(--ty,0deg));transition:transform 900ms var(--ease-site)}
+
+/* scroll-linked: phones drift, and the "No" lines come into focus at the middle of the screen */
+.rs-drift{transform:translateY(var(--shift,0px));will-change:transform}
+.rs-focus{opacity:var(--o,1);transform:translateX(calc((1 - var(--o,1)) * -20px));transition:opacity 300ms linear,transform 300ms linear}
+
+@media (prefers-reduced-motion:reduce){
+  .rs-site,.rs-site *{animation:none!important;transition:none!important}
+}
