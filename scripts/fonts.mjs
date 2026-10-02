@@ -6,9 +6,10 @@
 // The handoff's files carry every script each family covers: Newsreader alone
 // is 455 kB, which on a slow phone link holds the first paint for seconds. This
 // keeps the range Google Fonts serves as "latin", plus the arrows the copy
-// uses, and every feature, hint and name. The display faces are drawn at one
-// weight each (Newsreader 400, Fraunces 420), so their weight axis is fixed
-// there, with Fraunces' SOFT and WONK at their defaults; optical size stays.
+// uses, and every feature, hint and name. Newsreader is drawn at one weight,
+// so its weight axis is fixed at 400; Fraunces keeps its weight axis (fixing
+// it at 420 moves the anti-aliasing) and drops SOFT and WONK to their
+// defaults. Optical size stays in both.
 // Each glyph the site draws is the handoff's own. The licences allow it, and
 // none reserves a font name. Check a change with shot.mjs: the page should not
 // move a pixel.

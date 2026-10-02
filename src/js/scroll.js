@@ -71,7 +71,9 @@ export function initScroll() {
   window.addEventListener("scroll", onScroll, { passive: true });
   window.addEventListener("resize", onScroll);
   window.addEventListener("load", onScroll);
-  measure();
+  // The first measure waits for the next frame, which lays the page out
+  // anyway, rather than forcing a layout of its own as the script starts.
+  onScroll();
   // Measure again once fonts and screens have settled the layout.
   document.fonts?.ready.then(onScroll);
   setTimeout(onScroll, 600);

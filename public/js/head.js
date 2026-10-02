@@ -44,8 +44,13 @@
   function paint(el) {
     if (el.hasAttribute("data-screen")) {
       // A screenshot: only the active pair is requested, and a change swaps the file.
+      // The files are described by width, and each frame's sizes in the markup
+      // give its width on screen (the frames scale the screen down with a
+      // transform, so its layout width is the file's), so a phone takes the 1x
+      // file wherever the frame is small enough for it.
       var base = "/assets/screens/" + el.getAttribute("data-screen") + "-" + state.look + "-" + state.theme;
-      el.srcset = base + ".webp 1x, " + base + "@2x.webp 2x";
+      var w = Number(el.getAttribute("width"));
+      el.srcset = base + ".webp " + w + "w, " + base + "@2x.webp " + 2 * w + "w";
       el.src = base + ".webp";
     } else if (el.classList.contains("rs-site")) {
       el.setAttribute("data-look", state.look);
@@ -82,6 +87,22 @@
   }
 
   paintRoot();
+
+  // The Look's faces, asked for now rather than once the stylesheet has
+  // arrived and the page is laid out.
+  var FACES = {
+    reel: ["barlow-semi-condensed-500", "barlow-semi-condensed-600", "barlow-semi-condensed-700", "newsreader-italic"],
+    paper: ["atkinson-next", "fraunces-normal"]
+  };
+  FACES[state.look].forEach(function (face) {
+    var link = document.createElement("link");
+    link.rel = "preload";
+    link.as = "font";
+    link.type = "font/woff2";
+    link.crossOrigin = "anonymous";
+    link.href = "/assets/fonts/" + face + ".woff2";
+    document.head.appendChild(link);
+  });
 
   // Reveals hide things until they come into view (src/js/reveal.js), so the
   // page is marked before the first paint, never after it. With reduced motion,
