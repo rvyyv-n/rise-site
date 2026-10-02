@@ -55,9 +55,17 @@ done. Read only what the target lists. Use `Grep` for the section id in
 
 ## Notes for the next build pass
 
-- Found and left for the audit: at 320 in Paper, Get Rise's "Download for
-  Android" and "Download for Windows" buttons run past the right edge (right
-  edge 332 and 340). This pass did not touch Get Rise.
+- The font-swap shift, measured on a throttled link (150ms, 200 kB/s):
+  landing 0.015 at 1440 and 0.009 at 390, privacy 0.018, in Reel; about 0.001
+  in Paper. Most of it is Barlow Semi Condensed replacing `system-ui` and
+  rewrapping lines. Preloading the Look's first-screen faces from `head.js`
+  only took 1440 to 0.011, so it was not kept. Taking it to zero needs
+  fallback faces with `size-adjust` and ascent overrides, named in the
+  `--font-*` stacks, and those live in `tokens.css`, which stays unchanged:
+  the audit decides whether to ask the owner.
+- At 320 the Android and Windows cards in Get Rise put their glyph above the
+  text (`page.css`, below 22.5em), so "Download for Windows" fits in Paper's
+  face. The design has no 320 render.
 - Motion: `src/js/reveal.js`, `scroll.js`, `hero.js`, `transition.js`, with
   `reduced.js` shared. `public/js/head.js` puts `.rs-js` on `<html>` before the
   first paint (not with reduced motion), and takes it off at load if the page
@@ -74,10 +82,12 @@ done. Read only what the target lists. Use `Grep` for the section id in
   across and 2deg up and down, and that is what is built.
 - `transition.js` waits up to 400ms for the screens in view to decode before
   the new page is captured. `looks.js` keeps the pending state, so a fast second
-  click reads it. `check:looks` waits 600ms after each change for this.
+  click reads it. `check:looks` waits 600ms after each change for this. Its
+  module delay now matches the built `main-*.js` (it matched nothing before,
+  so the "module held back" checks were not holding it back; they pass).
 - `shot.mjs --motion 1` leaves motion on, for timing checks with `--eval`.
 - The demo: `#today` holds the design's Today screen as HTML (rendered from the
-  design system's components), with `<template>`s for the row states, the due
+  design system's components by `npm run demo:markup`), with `<template>`s for the row states, the due
   card and the toast; `src/js/demo.js` rebuilds the list from them. The
   DayTotal bar and sun read `--f`. Controls the demo does not run are `inert`;
   the six live ones get 44px on-screen targets in `page.css`, which overlap
@@ -110,7 +120,7 @@ done. Read only what the target lists. Use `Grep` for the section id in
 | `src/css/tokens.css` | The design's `bundle.css`, unchanged |
 | `src/css/site-tokens.css` | Site tokens and `--z-*` screen scales from the handoff `site.css` |
 | `src/css/site.css` | The handoff `site.css` as exported (ratcheted) |
-| `src/css/page.css` | `body{margin:0}` and the 44px Look option targets |
+| `src/css/page.css` | Site additions: `body{margin:0}`, 44px targets (Look and Install switches, demo), `[hidden]`, the header's slim margin, the demo's line height, the 320 Get Rise cards |
 | `public/_headers` | CSP and other headers; `vite preview` serves the same |
 | `public/assets/fonts/` | Eight handoff woff2 files and four OFL licences |
 | `dev/states.html` | Dev-only port of `States.dc.html`, at `/dev/states.html` on the dev server; not built |
@@ -118,6 +128,10 @@ done. Read only what the target lists. Use `Grep` for the section id in
 | `tests/` | Literal test and ratchet, headers, fonts, screen budgets |
 | `scripts/shot.mjs` | Screenshots, layout checks and render diffs, one line per shot |
 | `scripts/check-looks.mjs` | Look and theme behaviour, including no flash |
+| `scripts/check-motion.mjs` | Reveals, reduced motion (at start, mid-visit, print), no script, the header, the hero sun, transitions with and without view transitions, fast clicks, tilt on touch, and the demo |
+| `scripts/demo-markup.mjs` | Writes the `#today` demo's markup from the handoff's design system (dev only) |
+| `src/js/reveal.js`, `scroll.js`, `hero.js`, `transition.js`, `reduced.js` | Motion: reveals, scroll-linked header, sun, focus and drift, tilt and CTA wash, Look and theme view transitions |
+| `src/js/demo.js` | The live Today phone |
 | `scripts/check-headers.mjs` | Headers on a live URL |
 | `.github/workflows/deploy.yml` | Test and build on push and PR; deploy `main` |
 
