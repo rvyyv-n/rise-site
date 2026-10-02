@@ -14,9 +14,12 @@
     "shot": "node scripts/shot.mjs",
     "check:looks": "node scripts/check-looks.mjs",
     "check:motion": "node scripts/check-motion.mjs",
-    "demo:markup": "node scripts/demo-markup.mjs"
+    "demo:markup": "node scripts/demo-markup.mjs",
+    "audit": "node scripts/audit.mjs",
+    "fonts": "node scripts/fonts.mjs"
   },
   "devDependencies": {
+    "lighthouse": "^13.5.0",
     "playwright-core": "^1.63.0",
     "sharp": "^0.35.5",
     "vite": "^8.3.2",
