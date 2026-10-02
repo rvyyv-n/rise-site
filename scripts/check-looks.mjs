@@ -28,6 +28,10 @@ const FRAME_PROBE = () => {
   requestAnimationFrame(tick);
 };
 
+// A change applies inside a view transition, a frame or two after the input
+// (and up to 400ms while the screens in view decode); let it land.
+const settle = (p) => p.waitForTimeout(600);
+
 async function visit({ scheme = "light", storage = null, delayModule = 0, reduced = "no-preference" } = {}) {
   const ctx = await b.newContext({ viewport: { width: 1440, height: 900 }, colorScheme: scheme, reducedMotion: reduced });
   if (storage) {
@@ -78,15 +82,15 @@ for (const pair of ["paper-light", "paper-dark", "reel-light", "reel-dark"]) {
 // 3. Choices survive a reload, with no flash after it.
 {
   const { ctx, p } = await visit({ scheme: "light" });
-  await p.click('[data-control="look"] [data-value="paper"]');
+  await p.click('[data-control="look"] [data-value="paper"]'); await settle(p);
   let s = await state(p);
   ok(s.html === "paper-light" && s.stored === "paper,", `pick Paper: paper-light, only the Look saved (saved "${s.stored}")`);
-  await p.click(".rs-theme");
+  await p.click(".rs-theme"); await settle(p);
   s = await state(p);
   ok(s.html === "paper-dark" && s.sw === "true" && s.stored === "paper,dark", "toggle theme: paper-dark, switch on, both saved");
   await p.reload({ waitUntil: "load" }); await p.waitForTimeout(300);
   ok(steady(await frames(p), "paper-dark"), "reload: paper-dark from the first frame");
-  await p.click('[data-control="look"] [data-value="reel"]'); await p.click(".rs-theme");
+  await p.click('[data-control="look"] [data-value="reel"]'); await settle(p); await p.click(".rs-theme"); await settle(p);
   await p.reload({ waitUntil: "load" }); await p.waitForTimeout(300);
   ok(steady(await frames(p), "reel-light"), "pick Reel, toggle to light, reload: reel-light from the first frame");
   await ctx.close();
@@ -113,13 +117,13 @@ for (const pair of ["paper-light", "paper-dark", "reel-light", "reel-dark"]) {
   const tabTo = async (pred) => { for (let i = 0; i < 12; i++) { await p.keyboard.press("Tab"); if (await p.evaluate(pred)) return true; } return false; };
   ok(await tabTo(() => document.activeElement.matches('[data-control="look"] [role="radio"]')), "Tab reaches the Look switch");
   ok((await p.evaluate(() => document.activeElement.dataset.value)) === "reel", "  focus lands on the chosen option (Reel)");
-  await p.keyboard.press("ArrowLeft");
+  await p.keyboard.press("ArrowLeft"); await settle(p);
   ok((await state(p)).html === "paper-dark" && (await p.evaluate(() => document.activeElement.dataset.value)) === "paper", "  ArrowLeft picks Paper and moves focus");
   ok(await tabTo(() => document.activeElement.matches(".rs-theme")), "Tab reaches the theme switch next");
   await p.waitForTimeout(400);
   const ring = await p.evaluate(() => getComputedStyle(document.activeElement).boxShadow);
   ok(/rgb\(224, 103, 63\)/.test(ring), `  focus ring visible on the theme switch (${ring})`);
-  await p.keyboard.press("Space");
+  await p.keyboard.press("Space"); await settle(p);
   ok((await state(p)).html === "paper-light", "  Space toggles the theme");
   await ctx.close();
 }

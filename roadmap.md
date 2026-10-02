@@ -13,7 +13,7 @@ is git-ignored and never imported, served or committed.
 ## Build passes
 
 A build pass is a group of similar targets, run in one thread on one model. The
-old pass names (S2 to S11) are kept as target names. Build passes 1 to 4 are done.
+old pass names (S2 to S11) are kept as target names. Build passes 1 to 5 are done.
 
 | Build pass | Targets | Model | State |
 | --- | --- | --- | --- |
@@ -21,8 +21,8 @@ old pass names (S2 to S11) are kept as target names. Build passes 1 to 4 are don
 | 2 `landing` | hero (S4), sections (S5) | Sonnet 5.5, high | Done |
 | 3 `shots` | shots (S6) | Sonnet 5.5, high | Done |
 | 4 `get and pages` | downloads (S7), privacy (S8) | Sonnet 5.5, high | Done |
-| 5 `interaction` | motion (S9), demo (S10) | Opus 5.5, high | Next |
-| 6 `audit` | audit (S11) | Opus 5.5, high | To do |
+| 5 `interaction` | motion (S9), demo (S10) | Opus 5.5, high | Done |
+| 6 `audit` | audit (S11) | Opus 5.5, high | Next |
 
 Why these models: build passes 2 to 4 are careful copying from the source and
 wiring scripts the plan already describes, which Sonnet does well at a lower
@@ -43,26 +43,6 @@ Each target lists what to read (paths in `H/`), what it does, and when it is
 done. Read only what the target lists. Use `Grep` for the section id in
 `Main.dc.html` and read that range, not the whole file.
 
-### motion (S9)
-
-- **Reads:** `H/NOTES.md` (every duration and easing); the motion block of
-  `canvas/site.css`; `apply`, `componentDidMount`, `measure`, `tilt`,
-  `untilt`, `trackPointer` in the `Main.dc.html` script; plan section 5's
-  module table.
-- **Does:** `reveal.js`, `scroll.js`, `hero.js`, `transition.js`, and the hero
-  sun.
-- **Done when:** timing matches `NOTES.md`; reduced motion turns everything
-  off and shows the end state; nothing shifts layout; every reveal fires.
-
-### demo (S10)
-
-- **Reads:** `canvas/ShotToday.dc.html`: markup for the layout, `blocks`,
-  `toggle` and `renderVals` for the logic.
-- **Does:** the live Today phone in `#today`, in plain HTML and JS.
-- **Done when:** ticking a meal moves the total, the bar, the sun and the due
-  card, and shows the toast with Undo; it follows Look and theme; the starting
-  state matches `screen-today-*.jpg`.
-
 ### audit (S11)
 
 - **Reads:** the whole site; plan's Verification section.
@@ -75,41 +55,48 @@ done. Read only what the target lists. Use `Grep` for the section id in
 
 ## Notes for the next build pass
 
-- The frames now hold the real app screens (`scripts/shots.mjs`; the app's dev
-  server on port 5199, run `node scripts/shots.mjs`, then `og` against a
-  preview). `head.js` sets each `img[data-screen]` to the active pair; the four
-  Two Looks tiles have fixed sources. The Today section phone is a plain image
-  until `demo` replaces it. The Open Graph card is `public/assets/og.jpg`;
-  `privacy` adds the meta tags that point at it. Page diffs against the landing
-  renders now include the real app's data, which differs from the design's demo
-  data (grocery quantities, Settings content, a few totals).
-- Two Looks tile markup adds two attributes the design does not have:
-  `data-pair` on each `.rs-look` button and `data-radio` on its Radio span.
-  `head.js` sets `aria-pressed` and the Radio ring from them before first paint
-  (ring tokens `--radio-ring`, `--radio-dot` in `site-tokens.css`).
-- The hero tilt handlers (`onPointerMove`/`onPointerLeave`) and the `.rs-js`
-  class are left to `motion`; nothing hides content until it adds `.rs-js`.
-- `/privacy`, `/404`, the footer and the favicon are in. Every page has its
-  description, canonical and Open Graph tags (the card is `public/assets/og.jpg`).
-- Get Rise markup adds a few attributes the design does not have: `data-asset`
-  (`android` or `windows`) on the four download buttons, `data-control="install"`
-  and an `aria-label` ("Install on") on the install tabs, `data-install` on the
-  three step panels, `data-here` on the "This browser" and "This device" tags,
-  and `data-browser` on the Chrome or Edge tab and chip. The tags and the iPhone
-  and Mac panels start `hidden`; `src/js/install.js` shows them. `page.css` adds
-  the 44px install tab targets and `[hidden]{display:none !important}`.
-- `scripts/release.mjs` runs after `vite build` (`npm run build` does both) and
-  rewrites `dist/*.html`: the version everywhere, the file names, the sizes
-  (bytes / 1024^2, which is how the design's 2.52 MB and 2.77 MB come out) and
-  the direct URLs. If the API fails the build still passes and the links stay on
-  `/releases/latest`. It sends `GITHUB_TOKEN` when set. `RISE_RELEASE_API`
-  points it at another URL for testing. `tests/release.test.js` covers it.
-- `site-hook` in diet-tracker is now unblocked: it dispatches `rise-release` to
-  this repo, and `deploy.yml` needs a `repository_dispatch` trigger to receive it.
-- `shot.mjs --vh <px>` sets the viewport height. The 404 centres its content in
-  the viewport, so check it at `--vh 900` (the render's height) at 390.
-- On Cloudflare Pages `/404` itself answers 200; any unknown path answers 404
-  with this page and the CSP. `check-headers` expects 200 for all three paths.
+- Found and left for the audit: at 320 in Paper, Get Rise's "Download for
+  Android" and "Download for Windows" buttons run past the right edge (right
+  edge 332 and 340). This pass did not touch Get Rise.
+- Motion: `src/js/reveal.js`, `scroll.js`, `hero.js`, `transition.js`, with
+  `reduced.js` shared. `public/js/head.js` puts `.rs-js` on `<html>` before the
+  first paint (not with reduced motion), and takes it off at load if the page
+  script never ran (`window.RiseReveal`). All 50 landing reveals and 16 privacy
+  reveals fire.
+- Changes from the design, all fixes: the header gives back the 20px it loses
+  when it slims as `margin-bottom` (`--header-slim`, `page.css`), so nothing
+  below it moves; the hero sun's load animation fills `backwards`, not `both`,
+  because `both` held `transform` and the 1600ms set and rise never ran; with
+  reduced motion the header still takes the page colour and the progress sun
+  still tracks the scroll, but `is-away`, the drift and the No-line focus are
+  off; `--scroll` is set on the progress sun, not the page root.
+- NOTES says the hero devices lean "up to 6deg"; the design's code leans 3deg
+  across and 2deg up and down, and that is what is built.
+- `transition.js` waits up to 400ms for the screens in view to decode before
+  the new page is captured. `looks.js` keeps the pending state, so a fast second
+  click reads it. `check:looks` waits 600ms after each change for this.
+- `shot.mjs --motion 1` leaves motion on, for timing checks with `--eval`.
+- The demo: `#today` holds the design's Today screen as HTML (rendered from the
+  design system's components), with `<template>`s for the row states, the due
+  card and the toast; `src/js/demo.js` rebuilds the list from them. The
+  DayTotal bar and sun read `--f`. Controls the demo does not run are `inert`;
+  the six live ones get 44px on-screen targets in `page.css`, which overlap
+  their neighbours slightly at 320, where a row is 39px tall on screen. The
+  tick buttons carry `aria-pressed`, and the toast sits in a `role="status"`
+  wrapper; the design has neither. The screen draws at normal line height.
+- `tests/screens.test.js` now expects 10 images: the Today section phone is the
+  demo, not a screenshot.
+- The frames hold the real app screens (`scripts/shots.mjs`); page diffs against
+  the landing renders include the real app's data, which differs from the
+  design's demo data.
+- Get Rise markup adds `data-asset`, `data-control="install"`, `data-install`,
+  `data-here` and `data-browser`; `src/js/install.js` uses them. Two Looks tiles
+  add `data-pair` and `data-radio`. `scripts/release.mjs` rewrites the release
+  links at build.
+- `shot.mjs --vh <px>` sets the viewport height; check the 404 at `--vh 900`.
+  On Cloudflare Pages `/404` answers 200; unknown paths answer 404.
+- `site-hook` in diet-tracker is unblocked: `deploy.yml` here needs a
+  `repository_dispatch` trigger for `rise-release`.
 
 ## Repo map
 
