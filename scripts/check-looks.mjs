@@ -44,7 +44,7 @@ async function visit({ scheme = "light", storage = null, delayModule = 0, reduce
   }
   await ctx.addInitScript(FRAME_PROBE);
   if (delayModule) {
-    await ctx.route(/\/assets\/index-.*\.js$/, async (r) => { await new Promise((res) => setTimeout(res, delayModule)); r.continue(); });
+    await ctx.route(/\/assets\/main-.*\.js$/, async (r) => { await new Promise((res) => setTimeout(res, delayModule)); r.continue(); });
   }
   const p = await ctx.newPage();
   await p.goto(BASE + "/", { waitUntil: "load" });

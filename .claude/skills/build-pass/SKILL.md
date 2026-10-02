@@ -51,7 +51,8 @@ If a target removes a literal from `site.css`, lower `LEFTOVER` in
 3. View a `.shots/cmp-*.png` only where a diff is high or a check failed, and
    keep `--h` small so the image is small. Report every visible difference.
 4. `npm run -s check:looks` only if the pass touched `head.js`, `looks.js`, the
-   header or the tiles.
+   header or the tiles; `npm run -s check:motion` only if it touched
+   `head.js`, the motion or transition scripts, the header or the demo.
 5. Push, deploy by hand while `CLOUDFLARE_API_TOKEN` is unset (see roadmap),
    and run `npm run check:headers -- https://getrise.pages.dev` once.
 6. Stop the preview server.

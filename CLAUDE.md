@@ -49,7 +49,8 @@ The handoff is `private/rise-website-v1/`: never import, serve or commit it.
   images. Screenshot once per build pass, not per target, and view a
   `.shots/cmp-*.png` crop only when a diff or check calls for it.
 - `npm test` is fast; run it after CSS or JS changes. `check:looks` only when
-  Look or theme code changes. Don't build, deploy or check live headers more
+  Look or theme code changes, `check:motion` only when motion, transition or
+  demo code changes. Don't build, deploy or check live headers more
   than once per build pass.
 - Use `-s` with npm scripts and keep command output short (`tail`, `grep`).
 - Don't spawn subagents, loops or workflows unless asked. Work inline.
