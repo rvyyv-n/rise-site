@@ -35,12 +35,13 @@ or by hand):
 | Target | Model | When |
 | --- | --- | --- |
 | `site-hook`: a release triggers a site deploy | Sonnet 5.5, medium | After build pass 4 |
-| `readme`: the README links the site first | Sonnet 5.5, medium | After build pass 6 |
+| `readme`: the README links the site first | Sonnet 5.5, medium | Done |
 
 ## Targets
 
-All site targets are done. What is left is `readme` in diet-tracker (Sonnet
-5.5, medium), and a motion check right before the deploy: `npm run check:motion`
+All site targets are done, and so is `readme` (diet-tracker's README links the
+site first; this repo has its own README and previews in `docs/screenshots/`).
+What is left is a motion check right before the deploy: `npm run check:motion`
 on Opus 5.5, medium, in its own thread, then the manual deploy below.
 
 ## Notes for the next build pass
