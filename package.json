@@ -9,7 +9,6 @@
     "build": "vite build",
     "preview": "vite preview",
     "test": "vitest run",
-    "sync-tokens": "node scripts/sync-tokens.mjs",
     "pages:dev": "wrangler pages dev dist --port 8788",
     "check:headers": "node scripts/check-headers.mjs"
   },

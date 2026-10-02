@@ -1,557 +1,196 @@
-/* Synced from diet-tracker v3.0.0 (6220690fc8223f63690632f2ace4a0ccd3f8f965), src/css/tokens.css.
-   Written by scripts/sync-tokens.mjs. Do not edit: change the app and re-sync.
-   The app's fonts and base layers are left out: the site declares the design's
-   own font files in site.css, and keeps the design's document floor. */
+/* Rise tokens: the design's own, copied unchanged from the design handoff
+   (canvas/ds/riseds/components/bundle.css). The site recreates the design 1:1, so it
+   follows these values, not the app's tokens.css. */
 
-/* ============================================================================
-   tokens.css — Rise v3.0 design tokens
-   ----------------------------------------------------------------------------
-   Source: the v3.0 design handoff (tokens/{fonts,foundation,look-paper,
-   look-reel,screen}.css), copied verbatim except where marked APP LAYER. See
-   docs/design-system.md for what each token is for.
-
-   Layers, in order:
-     1. fonts       self-hosted woff2 under public/assets/fonts/
-     2. foundation  spacing, sizing, motion, sun gradients (Look-independent)
-     3. Paper       base palette + semantic tokens, light and dark (default)
-     4. Reel        the same semantic names with Reel values, light and dark
-     5. screen      eyebrow, section heading, hero CTA, nav dot (per Look)
-     6. APP LAYER   composite type, layout and control tokens that are Rise's
-                    own. Reads the layers above; never holds a Look value.
-     7. base        the document floor
-
-   Switch: <html data-look="paper|reel" data-theme="light|dark">. Components
-   read semantic tokens only; every Paper/Reel difference lives in this file.
-
-   OFFLINE: nothing here loads from a network. Fonts are vendored and precached.
-   ========================================================================== */
-
-/* ------------------------------------------------------------ foundation --- */
+/* Rise tokens, per Look × theme. Source of truth: design_handoff_rise_3/design-system/tokens/*.css (copied verbatim).
+   Two ways to switch, both supported:
+   1) the app's own:  <html data-look="paper|reel" data-theme="light|dark">
+   2) this system's theme ids: data-theme="paper-light|paper-dark|reel-light|reel-dark"
+   All four faces are self-hosted: their @font-face rules come from tokens.css (fonts/): Fraunces, Atkinson Next,
+   Newsreader (variable wght 200–800, opsz 6–72, normal + italic), Barlow Semi Condensed 500/600/700. No CDN fonts. */
+/* Look-independent: spacing, sizing, motion, sun gradients. */
 /* ---------- shared: spacing, motion, sizing (Look-independent) ---------- */
-:root {
-  --space-2: 2px;
-  --space-4: 4px;
-  --space-8: 8px;
-  --space-12: 12px;
-  --space-16: 16px;
-  --space-18: 18px;
-  --space-20: 20px;
-  --space-24: 24px;
-  --space-32: 32px;
-  --space-48: 48px;
-  --gutter: 20px;
-  --row-min: 56px; /* tick rows — one-handed, mid-meal */
-  --control-h: 48px; /* fields, segmented */
-  --button-h: 52px;
-  --button-h-sm: 40px;
-  --icon-button: 44px;
-  --nav-h: 64px;
+:root{
+  --space-2:2px;--space-4:4px;--space-8:8px;--space-12:12px;--space-16:16px;--space-20:20px;--space-24:24px;--space-32:32px;--space-48:48px;
+  --gutter:20px;
+  --row-min:56px;            /* tick rows — one-handed, mid-meal */
+  --control-h:48px;          /* fields, segmented */
+  --button-h:52px;--button-h-sm:40px;
+  --icon-button:44px;
+  --nav-h:64px;
 
-  --dur-instant: 90ms; /* press feedback */
-  --dur-fast: 160ms; /* hover, toggles */
-  --dur-base: 260ms; /* sheet, toast */
-  --dur-slow: 520ms; /* sun travel on the horizon */
-  --dur-breath: 2400ms; /* one breath of the About sun (pass 93) */
-  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
-  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1); /* tick pop, sun settle */
-  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --dur-instant:90ms;        /* press feedback */
+  --dur-fast:160ms;          /* hover, toggles */
+  --dur-base:260ms;          /* sheet, toast */
+  --dur-slow:520ms;          /* sun travel on the horizon */
+  --ease-out:cubic-bezier(.22,1,.36,1);
+  --ease-spring:cubic-bezier(.34,1.56,.64,1);   /* tick pop, sun settle */
+  --ease-in-out:cubic-bezier(.65,0,.35,1);
 
-  --sun: radial-gradient(circle at 40% 38%, #ffd392, #f8a959 42%, #eb7b49 72%, #e0673f);
-  --sun-wide: radial-gradient(120% 140% at 50% 110%, #ffd392 0%, #f8a959 35%, #e0673f 80%);
-  /* a meal's share of the day on Recipes: sunlight, not an intake status */
-  --meal-share-fill: linear-gradient(90deg, #ffd392, #f8a959 45%, #e0673f);
+  --sun:radial-gradient(circle at 40% 38%,#ffd392,#f8a959 42%,#eb7b49 72%,#e0673f);
+  --sun-wide:radial-gradient(120% 140% at 50% 110%,#ffd392 0%,#f8a959 35%,#e0673f 80%);
 }
 
 /* Motion off */
-@media (prefers-reduced-motion: reduce) {
-  :root {
-    --dur-instant: 0ms;
-    --dur-fast: 0ms;
-    --dur-base: 0ms;
-    --dur-slow: 0ms;
-    --dur-breath: 0ms;
-  }
-}
-
-/* ---------------------------------------------------------------- Paper --- */
+@media (prefers-reduced-motion:reduce){:root{--dur-instant:0ms;--dur-fast:0ms;--dur-base:0ms;--dur-slow:0ms}}
+/* Look: PAPER (default). Base palette --p-*, then semantic tokens, light + dark. Switch: <html data-look="paper" data-theme="light|dark"> */
 /* =====================================================================
    LOOK: PAPER  (default)
    ===================================================================== */
-:root,
-[data-look="paper"] {
-  --p-paper-50: #fffdf8;
-  --p-paper-100: #f7f1e8;
-  --p-paper-200: #efe6d8;
-  --p-paper-300: #e4d9ca;
-  --p-paper-400: #cdbfae;
-  --p-ink-900: #1c1916;
-  --p-ink-700: #4a423a;
-  --p-ink-600: #5a5047;
-  --p-ink-400: #8f8172;
-  --p-coral-500: #e0673f;
-  --p-coral-600: #d65c34;
-  --p-coral-700: #c9532e;
-  --p-coral-800: #a8441f;
-  --p-coral-200: #f2c6b4;
-  --p-green-600: #3f8f55;
-  --p-gold-600: #b8870f;
-  --p-rose-600: #c23a4b;
+:root,[data-look="paper"]{
+  --p-paper-50:#FFFDF8;--p-paper-100:#F7F1E8;--p-paper-200:#EFE6D8;--p-paper-300:#E4D9CA;--p-paper-400:#CDBFAE;
+  --p-ink-900:#1C1916;--p-ink-700:#4A423A;--p-ink-600:#5A5047;--p-ink-400:#8F8172;
+  --p-coral-500:#E0673F;--p-coral-600:#D65C34;--p-coral-700:#C9532E;--p-coral-800:#A8441F;--p-coral-200:#F2C6B4;
+  --p-green-600:#3F8F55;--p-gold-600:#B8870F;--p-rose-600:#C23A4B;
 
-  --font-display: "Fraunces", Georgia, serif;
-  --font-body: "Atkinson Next", system-ui, sans-serif;
-  --font-numeric: "Atkinson Next", system-ui, sans-serif;
-  --font-caption: "Atkinson Next", system-ui, sans-serif;
-  --display-weight: 420;
-  --display-style: normal;
-  --due-title-style: normal;
-  --numeric-weight: 700;
-  --numeric-tracking: -0.03em;
-  --caption-size: 14px;
-  --caption-weight: 700;
-  --caption-tracking: 0;
-  --caption-transform: none;
-  --label-transform: none;
-  --label-tracking: 0;
-  --label-size: 16px;
+  --font-display:'Fraunces',Georgia,serif;
+  --font-body:'Atkinson Next',system-ui,sans-serif;
+  --font-numeric:'Atkinson Next',system-ui,sans-serif;
+  --font-caption:'Atkinson Next',system-ui,sans-serif;
+  --display-weight:420;--display-style:normal;--due-title-style:normal;
+  --numeric-weight:700;--numeric-tracking:-.03em;
+  --caption-size:14px;--caption-weight:700;--caption-tracking:0;--caption-transform:none;
+  --label-transform:none;--label-tracking:0;--label-size:16px;
 
-  --type-hero: 76px;
-  --type-display-lg: 32px;
-  --type-display-md: 24px;
-  --type-title: 18px;
-  --type-body: 16px;
-  --type-small: 14px;
-  --type-micro: 12px;
+  --type-hero:76px;--type-display-lg:32px;--type-display-md:24px;--type-title:18px;--type-body:16px;--type-small:14px;--type-micro:12px;
 
-  --radius-sm: 8px;
-  --radius-md: 14px;
-  --radius-card: 22px;
-  --radius-field: 14px;
-  --radius-pill: 999px;
-  --texture: none;
+  --radius-sm:8px;--radius-md:14px;--radius-card:22px;--radius-field:14px;--radius-pill:999px;
+  --texture:none;
 }
-:root,
-[data-look="paper"] {
-  --bg-canvas: var(--p-paper-100);
-  --bg-raised: var(--p-paper-50);
-  --bg-sunken: var(--p-paper-200);
-  --bg-inverse: var(--p-ink-900);
-  --ink: var(--p-ink-900);
-  --ink-muted: var(--p-ink-600);
-  --ink-soft: var(--p-ink-400);
-  --ink-inverse: var(--p-paper-100);
-  --line: var(--p-paper-300);
-  --line-strong: var(--p-paper-400);
-  --accent: var(--p-coral-500);
-  --accent-hover: var(--p-coral-600);
-  --accent-pressed: var(--p-coral-700);
-  --accent-disabled: var(--p-coral-200);
-  --accent-ink: var(--p-ink-900);
-  --accent-text: var(--p-coral-800);
-  --danger: var(--p-rose-600);
-  --danger-ink: #ffffff;
-  --focus-ring: 0 0 0 2px var(--bg-canvas), 0 0 0 4px var(--p-coral-500);
+:root,[data-look="paper"]{
+  --bg-canvas:var(--p-paper-100);--bg-raised:var(--p-paper-50);--bg-sunken:var(--p-paper-200);--bg-inverse:var(--p-ink-900);
+  --ink:var(--p-ink-900);--ink-muted:var(--p-ink-600);--ink-soft:var(--p-ink-400);--ink-inverse:var(--p-paper-100);
+  --line:var(--p-paper-300);--line-strong:var(--p-paper-400);
+  --accent:var(--p-coral-500);--accent-hover:var(--p-coral-600);--accent-pressed:var(--p-coral-700);--accent-disabled:var(--p-coral-200);
+  --accent-ink:var(--p-ink-900);--accent-text:var(--p-coral-800);
+  --danger:var(--p-rose-600);--danger-ink:#FFFFFF;
+  --focus-ring:0 0 0 2px var(--bg-canvas),0 0 0 4px var(--p-coral-500);
 
-  --intake-on-track: var(--p-green-600);
-  --intake-partial: var(--p-gold-600);
-  --intake-low: var(--p-rose-600);
-  --intake-on-track-wash: #dcebdf;
-  --intake-partial-wash: #f2e6c4;
-  --intake-low-wash: #f4d8db;
+  --intake-on-track:var(--p-green-600);--intake-partial:var(--p-gold-600);--intake-low:var(--p-rose-600);
+  --intake-on-track-wash:#DCEBDF;--intake-partial-wash:#F2E6C4;--intake-low-wash:#F4D8DB;
 
-  --due-bg: var(--p-paper-50);
-  --due-ink: var(--p-ink-900);
-  --due-ink-muted: var(--p-ink-600);
-  --due-accent-text: var(--p-coral-800);
-  --due-edge: inset 0 0 0 1.5px var(--p-coral-500);
-  --due-glow: 0 22px 44px -22px rgba(224, 103, 63, 0.55);
-  --due-cta-bg: var(--p-coral-500);
-  --due-cta-ink: var(--p-ink-900);
-  --due-secondary-edge: var(--p-paper-400);
-  --now-line: var(--p-coral-500);
-  --sun-halo: rgba(248, 169, 89, 0.42);
+  --due-bg:var(--p-paper-50);--due-ink:var(--p-ink-900);--due-ink-muted:var(--p-ink-600);--due-accent-text:var(--p-coral-800);
+  --due-edge:inset 0 0 0 1.5px var(--p-coral-500);--due-glow:0 22px 44px -22px rgba(224,103,63,.55);
+  --due-cta-bg:var(--p-coral-500);--due-cta-ink:var(--p-ink-900);--due-secondary-edge:var(--p-paper-400);
+  --now-line:var(--p-coral-500);--sun-halo:rgba(248,169,89,.42);
 
-  --nav-bg: var(--p-paper-50);
-  --nav-edge: inset 0 0 0 1px var(--p-paper-300);
-  --nav-shadow: 0 12px 28px -14px rgba(80, 50, 25, 0.4);
-  --nav-ink: var(--p-ink-600);
-  --nav-active-bg: var(--p-ink-900);
-  --nav-active-ink: var(--p-paper-100);
-  --nav-active-glow: 0 8px 18px -8px rgba(224, 103, 63, 0.7);
-  /* The side nav's pill sits among other rows, not over the page's foot,
-     so its glow is even all round rather than dropped below. */
-  --sidenav-active-glow: 0 2px 14px -4px rgba(224, 103, 63, 0.4);
+  --nav-bg:var(--p-paper-50);--nav-edge:inset 0 0 0 1px var(--p-paper-300);--nav-shadow:0 12px 28px -14px rgba(80,50,25,.4);
+  --nav-ink:var(--p-ink-600);--nav-active-bg:var(--p-ink-900);--nav-active-ink:var(--p-paper-100);--nav-active-glow:0 8px 18px -8px rgba(224,103,63,.7);
 
-  --shadow-card: 0 1px 2px rgba(80, 50, 25, 0.08), 0 16px 32px -20px rgba(80, 50, 25, 0.3);
-  --shadow-float: 0 20px 48px -18px rgba(60, 40, 20, 0.45);
-  --scrim: rgba(28, 25, 22, 0.4);
-  --chart-band: rgba(224, 103, 63, 0.14);
+  --shadow-card:0 1px 2px rgba(80,50,25,.08),0 16px 32px -20px rgba(80,50,25,.3);
+  --shadow-float:0 20px 48px -18px rgba(60,40,20,.45);
+  --scrim:rgba(28,25,22,.4);
+  --chart-band:rgba(224,103,63,.14);
 }
-[data-look="paper"][data-theme="dark"] {
-  --bg-canvas: #0b0a09;
-  --bg-raised: #1f1d1a;
-  --bg-sunken: #171513;
-  --bg-inverse: #f3ede3;
-  --ink: #f3ede3;
-  --ink-muted: #b9ad9f;
-  --ink-soft: #766a5c;
-  --ink-inverse: #0b0a09;
-  --line: #2a2622;
-  --line-strong: #3a352f;
-  --accent: #e0673f;
-  --accent-hover: #e8774f;
-  --accent-pressed: #c9532e;
-  --accent-disabled: #5a2e20;
-  --accent-ink: #121110;
-  --accent-text: #f08a64;
-  --danger: #e8697a;
-  --danger-ink: #121110;
-  --intake-on-track: #5db872;
-  --intake-partial: #d9a520;
-  --intake-low: #e8697a;
-  --intake-on-track-wash: #1e3324;
-  --intake-partial-wash: #3a3015;
-  --intake-low-wash: #3a1e22;
-  --due-bg: #1f1d1a;
-  --due-ink: #f3ede3;
-  --due-ink-muted: #b9ad9f;
-  --due-accent-text: #f08a64;
-  --due-edge: inset 0 0 0 1.5px #e0673f;
-  --due-glow: 0 0 44px -10px rgba(224, 103, 63, 0.45);
-  --due-cta-bg: #e0673f;
-  --due-cta-ink: #121110;
-  --due-secondary-edge: #4a433c;
-  --sun-halo: rgba(248, 169, 89, 0.32);
-  --nav-bg: #1f1d1a;
-  --nav-edge: inset 0 0 0 1px #34302b;
-  --nav-shadow: 0 0 0 0 transparent; /* none would void the edge beside it */
-  --nav-ink: #b9ad9f;
-  --nav-active-bg: #f3ede3;
-  --nav-active-ink: #0b0a09;
-  --nav-active-glow: 0 0 22px -6px rgba(248, 169, 89, 0.55);
-  --sidenav-active-glow: var(--nav-active-glow);
-  --shadow-card: inset 0 0 0 1px #2e2a26;
-  --shadow-float: inset 0 0 0 1px #34302b, 0 24px 48px -16px rgba(0, 0, 0, 0.7);
-  --scrim: rgba(0, 0, 0, 0.6);
-  --chart-band: rgba(240, 138, 100, 0.2);
+[data-look="paper"][data-theme="dark"],[data-theme="paper-dark"]{
+  --bg-canvas:#0B0A09;--bg-raised:#1F1D1A;--bg-sunken:#171513;--bg-inverse:#F3EDE3;
+  --ink:#F3EDE3;--ink-muted:#B9AD9F;--ink-soft:#766A5C;--ink-inverse:#0B0A09;
+  --line:#2A2622;--line-strong:#3A352F;
+  --accent:#E0673F;--accent-hover:#E8774F;--accent-pressed:#C9532E;--accent-disabled:#5A2E20;
+  --accent-ink:#121110;--accent-text:#F08A64;
+  --danger:#E8697A;--danger-ink:#121110;
+  --intake-on-track:#5DB872;--intake-partial:#D9A520;--intake-low:#E8697A;
+  --intake-on-track-wash:#1E3324;--intake-partial-wash:#3A3015;--intake-low-wash:#3A1E22;
+  --due-bg:#1F1D1A;--due-ink:#F3EDE3;--due-ink-muted:#B9AD9F;--due-accent-text:#F08A64;
+  --due-edge:inset 0 0 0 1.5px #E0673F;--due-glow:0 0 44px -10px rgba(224,103,63,.45);
+  --due-cta-bg:#E0673F;--due-cta-ink:#121110;--due-secondary-edge:#4A433C;
+  --sun-halo:rgba(248,169,89,.32);
+  --nav-bg:#1F1D1A;--nav-edge:inset 0 0 0 1px #34302B;--nav-shadow:none;
+  --nav-ink:#B9AD9F;--nav-active-bg:#F3EDE3;--nav-active-ink:#0B0A09;--nav-active-glow:0 0 22px -6px rgba(248,169,89,.55);
+  --shadow-card:inset 0 0 0 1px #2E2A26;--shadow-float:inset 0 0 0 1px #34302B,0 24px 48px -16px rgba(0,0,0,.7);
+  --scrim:rgba(0,0,0,.6);--chart-band:rgba(240,138,100,.2);
 }
 
-/* ----------------------------------------------------------------- Reel --- */
+/* Look: REEL. Same semantic names as Paper; only values differ. Switch: <html data-look="reel" data-theme="light|dark"> */
 /* =====================================================================
    LOOK: REEL
    ===================================================================== */
-[data-look="reel"] {
-  --font-display: "Newsreader", Georgia, serif;
-  --font-body: "Barlow Semi Condensed", system-ui, sans-serif;
-  --font-numeric: "Barlow Semi Condensed", system-ui, sans-serif;
-  --font-caption: "Barlow Semi Condensed", system-ui, sans-serif;
-  --display-weight: 400;
-  --display-style: normal;
-  --due-title-style: italic;
-  --numeric-weight: 600;
-  --numeric-tracking: -0.01em;
-  --caption-size: 11px;
-  --caption-weight: 600;
-  --caption-tracking: 0.22em;
-  --caption-transform: uppercase;
-  --label-transform: uppercase;
-  --label-tracking: 0.14em;
-  --label-size: 13px;
-  --type-hero: 86px;
-  --type-display-lg: 40px;
-  --type-display-md: 26px;
-  --type-title: 19px;
-  --type-body: 16px;
-  --type-small: 14px;
-  --type-micro: 11px;
-  --radius-sm: 10px;
-  --radius-md: 16px;
-  --radius-card: 24px;
-  --radius-field: 999px;
-  --radius-pill: 999px;
-  --texture: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .36 0 0 0 0 .25 0 0 0 0 .14 0 0 0 .1 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+[data-look="reel"],[data-theme="reel-light"],[data-theme="reel-dark"]{
+  --font-display:'Newsreader',Georgia,serif;
+  --font-body:'Barlow Semi Condensed',system-ui,sans-serif;
+  --font-numeric:'Barlow Semi Condensed',system-ui,sans-serif;
+  --font-caption:'Barlow Semi Condensed',system-ui,sans-serif;
+  --display-weight:400;--display-style:normal;--due-title-style:italic;
+  --numeric-weight:600;--numeric-tracking:-.01em;
+  --caption-size:11px;--caption-weight:600;--caption-tracking:.22em;--caption-transform:uppercase;
+  --label-transform:uppercase;--label-tracking:.14em;--label-size:13px;
+  --type-hero:86px;--type-display-lg:40px;--type-display-md:26px;--type-title:19px;--type-body:16px;--type-small:14px;--type-micro:11px;
+  --radius-sm:10px;--radius-md:16px;--radius-card:24px;--radius-field:999px;--radius-pill:999px;
+  --texture:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .36 0 0 0 0 .25 0 0 0 0 .14 0 0 0 .1 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 
-  --bg-canvas: #f3ede3;
-  --bg-raised: #fffaf2;
-  --bg-sunken: #e9e1d4;
-  --bg-inverse: #121110;
-  --ink: #121110;
-  --ink-muted: #6b6258; /* export #6e655b, 4.40:1 on --bg-sunken; this clears 4.5:1 */
-  --ink-soft: #8c8378;
-  --ink-inverse: #f3ede3;
-  --line: #ddd3c4;
-  --line-strong: #c9bba9;
-  --accent: #e0673f;
-  --accent-hover: #d65c34;
-  --accent-pressed: #c9532e;
-  --accent-disabled: #f2c6b4;
-  --accent-ink: #121110;
-  --accent-text: #a8441f; /* export #b44a26, 4.10:1 on --bg-sunken; Paper's coral-800 */
-  --danger: #c23a4b;
-  --danger-ink: #ffffff;
-  --focus-ring: 0 0 0 2px var(--bg-canvas), 0 0 0 4px #e0673f;
-  --intake-on-track: #3d9656;
-  --intake-partial: #c4910f;
-  --intake-low: #c23a4b;
-  --intake-on-track-wash: #d6eedc;
-  --intake-partial-wash: #f3e3b0;
-  --intake-low-wash: #f4d8db;
+  --bg-canvas:#F3EDE3;--bg-raised:#FFFAF2;--bg-sunken:#E9E1D4;--bg-inverse:#121110;
+  --ink:#121110;--ink-muted:#6E655B;--ink-soft:#8C8378;--ink-inverse:#F3EDE3;
+  --line:#DDD3C4;--line-strong:#C9BBA9;
+  --accent:#E0673F;--accent-hover:#D65C34;--accent-pressed:#C9532E;--accent-disabled:#F2C6B4;
+  --accent-ink:#121110;--accent-text:#B44A26;
+  --danger:#C23A4B;--danger-ink:#FFFFFF;
+  --focus-ring:0 0 0 2px var(--bg-canvas),0 0 0 4px #E0673F;
+  --intake-on-track:#3D9656;--intake-partial:#C4910F;--intake-low:#C23A4B;
+  --intake-on-track-wash:#D6EEDC;--intake-partial-wash:#F3E3B0;--intake-low-wash:#F4D8DB;
 
-  --due-bg:
-    radial-gradient(120% 90% at 0% 0%, rgba(248, 169, 89, 0.32), rgba(248, 169, 89, 0) 55%), #1f1d1a;
-  --due-ink: #f3ede3;
-  --due-ink-muted: #b9ad9f;
-  --due-accent-text: #f4a07e;
-  --due-edge: inset 0 0 0 0 transparent;
-  --due-glow: 0 22px 44px -22px rgba(18, 17, 16, 0.7);
-  --due-cta-bg: #e0673f;
-  --due-cta-ink: #121110;
-  --due-secondary-edge: rgba(243, 237, 227, 0.35);
-  --now-line: #e0673f;
-  --sun-halo: rgba(248, 169, 89, 0.42);
+  --due-bg:radial-gradient(120% 90% at 0% 0%,rgba(248,169,89,.32),rgba(248,169,89,0) 55%),#1F1D1A;
+  --due-ink:#F3EDE3;--due-ink-muted:#B9AD9F;--due-accent-text:#F4A07E;
+  --due-edge:inset 0 0 0 0 transparent;--due-glow:0 22px 44px -22px rgba(18,17,16,.7);
+  --due-cta-bg:#E0673F;--due-cta-ink:#121110;--due-secondary-edge:rgba(243,237,227,.35);
+  --now-line:#E0673F;--sun-halo:rgba(248,169,89,.42);
 
-  --nav-bg: #121110;
-  --nav-edge: inset 0 0 0 0 transparent;
-  --nav-shadow: 0 14px 30px -14px rgba(0, 0, 0, 0.6);
-  --nav-ink: #a99e91;
-  --nav-active-bg: var(--sun-wide);
-  --nav-active-ink: #121110;
-  --nav-active-glow: 0 0 22px -4px rgba(248, 169, 89, 0.6);
+  --nav-bg:#121110;--nav-edge:inset 0 0 0 0 transparent;--nav-shadow:0 14px 30px -14px rgba(0,0,0,.6);
+  --nav-ink:#A99E91;--nav-active-bg:var(--sun-wide);--nav-active-ink:#121110;--nav-active-glow:0 0 22px -4px rgba(248,169,89,.6);
 
-  --shadow-card: inset 0 0 0 1px #ddd3c4;
-  --shadow-float: 0 20px 48px -18px rgba(18, 17, 16, 0.5);
-  --scrim: rgba(18, 17, 16, 0.45);
-  --chart-band: rgba(224, 103, 63, 0.16);
+  --shadow-card:inset 0 0 0 1px #DDD3C4;
+  --shadow-float:0 20px 48px -18px rgba(18,17,16,.5);
+  --scrim:rgba(18,17,16,.45);
+  --chart-band:rgba(224,103,63,.16);
 }
-[data-look="reel"][data-theme="dark"] {
-  --texture: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 .92 0 0 0 0 .8 0 0 0 .05 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  --bg-canvas: #0e0d0b;
-  --bg-raised: #1f1d1a;
-  --bg-sunken: #171513;
-  --bg-inverse: #f3ede3;
-  --ink: #f3ede3;
-  --ink-muted: #a99e91;
-  --ink-soft: #6e655b;
-  --ink-inverse: #121110;
-  --line: #2a2622;
-  --line-strong: #3a352f;
-  --accent: #e0673f;
-  --accent-hover: #e8774f;
-  --accent-pressed: #c9532e;
-  --accent-disabled: #5a2e20;
-  --accent-ink: #121110;
-  --accent-text: #f08a64;
-  --danger: #e8697a;
-  --danger-ink: #121110;
-  --intake-on-track: #5db872;
-  --intake-partial: #d9a520;
-  --intake-low: #e8697a;
-  --intake-on-track-wash: #1e3324;
-  --intake-partial-wash: #3a3015;
-  --intake-low-wash: #3a1e22;
-  --due-bg: radial-gradient(120% 100% at 0% 0%, #f29a6e, #e0673f 60%);
-  --due-ink: #121110;
-  --due-ink-muted: #2a1a12;
-  --due-accent-text: #121110;
-  --due-edge: inset 0 0 0 0 transparent;
-  --due-glow: 0 0 56px -12px rgba(224, 103, 63, 0.6);
-  --due-cta-bg: #121110;
-  --due-cta-ink: #f3ede3;
-  --due-secondary-edge: rgba(18, 17, 16, 0.5);
-  --sun-halo: rgba(248, 169, 89, 0.32);
-  --nav-bg: #1f1d1a;
-  --nav-edge: inset 0 0 0 1px #34302b;
-  --nav-shadow: 0 14px 30px -14px rgba(0, 0, 0, 0.7);
-  --nav-ink: #a99e91;
-  --shadow-card: inset 0 0 0 1px #2a2622;
-  --shadow-float: inset 0 0 0 1px #34302b, 0 24px 48px -16px rgba(0, 0, 0, 0.7);
-  --scrim: rgba(0, 0, 0, 0.6);
-  --chart-band: rgba(240, 138, 100, 0.2);
+[data-look="reel"][data-theme="dark"],[data-theme="reel-dark"]{
+  --texture:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 .92 0 0 0 0 .8 0 0 0 .05 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  --bg-canvas:#0E0D0B;--bg-raised:#1F1D1A;--bg-sunken:#171513;--bg-inverse:#F3EDE3;
+  --ink:#F3EDE3;--ink-muted:#A99E91;--ink-soft:#6E655B;--ink-inverse:#121110;
+  --line:#2A2622;--line-strong:#3A352F;
+  --accent:#E0673F;--accent-hover:#E8774F;--accent-pressed:#C9532E;--accent-disabled:#5A2E20;
+  --accent-ink:#121110;--accent-text:#F08A64;
+  --danger:#E8697A;--danger-ink:#121110;
+  --intake-on-track:#5DB872;--intake-partial:#D9A520;--intake-low:#E8697A;
+  --intake-on-track-wash:#1E3324;--intake-partial-wash:#3A3015;--intake-low-wash:#3A1E22;
+  --due-bg:radial-gradient(120% 100% at 0% 0%,#F29A6E,#E0673F 60%);
+  --due-ink:#121110;--due-ink-muted:#2A1A12;--due-accent-text:#121110;
+  --due-edge:inset 0 0 0 0 transparent;--due-glow:0 0 56px -12px rgba(224,103,63,.6);
+  --due-cta-bg:#121110;--due-cta-ink:#F3EDE3;--due-secondary-edge:rgba(18,17,16,.5);
+  --sun-halo:rgba(248,169,89,.32);
+  --nav-bg:#1F1D1A;--nav-edge:inset 0 0 0 1px #34302B;--nav-shadow:0 14px 30px -14px rgba(0,0,0,.7);
+  --nav-ink:#A99E91;
+  --shadow-card:inset 0 0 0 1px #2A2622;--shadow-float:inset 0 0 0 1px #34302B,0 24px 48px -16px rgba(0,0,0,.7);
+  --scrim:rgba(0,0,0,.6);--chart-band:rgba(240,138,100,.2);
 }
 
-/* --------------------------------------------------------------- screen --- */
+
+/* Screen-level tokens (eyebrow, section heading, hero CTA, nav dot, weigh-in date, chart band) from the approved 5a/5b mocks. Per-Look. */
 /* ---------- screen-level tokens (from the approved 5a / 5b mocks) ---------- */
-:root,
-[data-look="paper"] {
-  --eyebrow-size: 15px;
-  --eyebrow-weight: 700;
-  --eyebrow-tracking: 0;
-  --eyebrow-transform: none;
-  --eyebrow-ink: var(--p-ink-700);
-  --due-label-size: 13px;
-  --due-label-tracking: 0;
-  --section-font: var(--font-display);
-  --section-size: 18px;
-  --section-weight: 400;
-  --section-tracking: 0;
-  --section-transform: none;
-  --section-ink: var(--ink);
-  --horizon: rgba(28, 25, 22, 0.35);
-  --nav-dot: radial-gradient(circle at 40% 38%, #ffd392, #f8a959 45%, #e0673f);
-  --nav-label-size: 12px;
-  --nav-label-weight: 700;
-  --cta-hero-bg: var(--accent);
-  --cta-hero-ink: var(--accent-ink);
-  --cta-hero-glow: none;
-  --cta-hero-size: 16px;
-  --cta-hero-tracking: 0;
-  --cta-hero-transform: none;
-  --chip-bg: var(--bg-sunken);
-  --weighin-date-font: var(--font-display);
-  --weighin-date-size: 22px;
-  --weighin-date-weight: 400;
-  --band-flat: 1;
-  --band-sky: 0;
+:root,[data-look="paper"]{
+  --eyebrow-size:15px;--eyebrow-weight:700;--eyebrow-tracking:0;--eyebrow-transform:none;--eyebrow-ink:var(--p-ink-700);
+  --due-label-size:13px;--due-label-tracking:0;
+  --section-font:var(--font-display);--section-size:18px;--section-weight:400;--section-tracking:0;--section-transform:none;--section-ink:var(--ink);
+  --horizon:rgba(28,25,22,.35);
+  --nav-dot:radial-gradient(circle at 40% 38%,#ffd392,#f8a959 45%,#e0673f);--nav-label-size:12px;--nav-label-weight:700;
+  --cta-hero-bg:var(--accent);--cta-hero-ink:var(--accent-ink);--cta-hero-glow:none;--cta-hero-size:16px;--cta-hero-tracking:0;--cta-hero-transform:none;
+  --chip-bg:var(--bg-sunken);
+  --weighin-date-font:var(--font-display);--weighin-date-size:22px;--weighin-date-weight:400;
+  --band-flat:1;--band-sky:0;
 }
-[data-look="paper"][data-theme="dark"] {
-  --eyebrow-ink: #cfc4b6;
-  --horizon: rgba(243, 237, 227, 0.35);
+[data-look="paper"][data-theme="dark"],[data-theme="paper-dark"]{--eyebrow-ink:#CFC4B6;--horizon:rgba(243,237,227,.35)}
+[data-look="reel"],[data-theme="reel-light"],[data-theme="reel-dark"]{
+  --eyebrow-size:12px;--eyebrow-weight:600;--eyebrow-tracking:.22em;--eyebrow-transform:uppercase;--eyebrow-ink:var(--ink-muted);
+  --due-label-size:11px;--due-label-tracking:.18em;
+  --section-font:var(--font-caption);--section-size:11px;--section-weight:600;--section-tracking:.22em;--section-transform:uppercase;--section-ink:var(--ink-muted);
+  --horizon:rgba(18,17,16,.35);
+  --nav-dot:transparent;--nav-label-size:11px;--nav-label-weight:600;
+  --cta-hero-bg:var(--sun-wide);--cta-hero-ink:#121110;--cta-hero-glow:0 0 22px -6px rgba(248,169,89,.6);--cta-hero-size:13px;--cta-hero-tracking:.16em;--cta-hero-transform:uppercase;
+  --chip-bg:var(--bg-sunken);
+  --weighin-date-font:var(--font-numeric);--weighin-date-size:30px;--weighin-date-weight:600;
+  --band-flat:0;--band-sky:1;
 }
-[data-look="reel"] {
-  --eyebrow-size: 12px;
-  --eyebrow-weight: 600;
-  --eyebrow-tracking: 0.22em;
-  --eyebrow-transform: uppercase;
-  --eyebrow-ink: var(--ink-muted);
-  --due-label-size: 11px;
-  --due-label-tracking: 0.18em;
-  --section-font: var(--font-caption);
-  --section-size: 11px;
-  --section-weight: 600;
-  --section-tracking: 0.22em;
-  --section-transform: uppercase;
-  --section-ink: var(--ink-muted);
-  --horizon: rgba(18, 17, 16, 0.35);
-  --nav-dot: transparent;
-  --nav-label-size: 11px;
-  --nav-label-weight: 600;
-  --cta-hero-bg: var(--sun-wide);
-  --cta-hero-ink: #121110;
-  --cta-hero-glow: 0 0 22px -6px rgba(248, 169, 89, 0.6);
-  --cta-hero-size: 13px;
-  --cta-hero-tracking: 0.16em;
-  --cta-hero-transform: uppercase;
-  --chip-bg: var(--bg-sunken);
-  --weighin-date-font: var(--font-numeric);
-  --weighin-date-size: 30px;
-  --weighin-date-weight: 600;
-  --band-flat: 0;
-  --band-sky: 1;
-}
-[data-look="reel"][data-theme="dark"] {
-  --eyebrow-ink: #cfc4b6;
-  --horizon: rgba(243, 237, 227, 0.35);
-}
+[data-look="reel"][data-theme="dark"],[data-theme="reel-dark"]{--eyebrow-ink:#CFC4B6;--horizon:rgba(243,237,227,.35)}
 
-/* ============================================================================
-   APP LAYER — Rise's own tokens. Not from the design export. Everything here
-   reads the layers above, so a Look or theme change flows through unchanged.
-   ========================================================================== */
 
-/* Declared on every [data-look] as well as the root: a custom property that
-   reads others is resolved where it is declared, so a nested Look preview (the
-   Look picker, the component scratch page) needs these re-read in its scope. */
-:root,
-[data-look] {
-  color-scheme: light;
-
-  /* Composite type. The export gives families, sizes and weights; these are the
-     `font:` shorthands app.css reads, built only from those. Sentence-case
-     labels take --text-caption; the tracked small-caps register is
-     --text-eyebrow, paired at the call site with --eyebrow-tracking and
-     --eyebrow-transform so Reel can uppercase it and Paper cannot. */
-  --weight-regular: 400;
-  --weight-medium: 500;
-  --text-display-sm: var(--display-weight) var(--type-display-md) / 1.2 var(--font-display);
-  --text-screen-title: var(--display-weight) var(--type-display-lg) / 1.05 var(--font-display);
-  --text-metric: var(--display-weight) var(--type-display-lg) / 1.1 var(--font-display);
-  --text-metric-sm: var(--numeric-weight) var(--type-body) / 1.2 var(--font-numeric);
-  --text-title-sm: 600 var(--type-body) / 1.4 var(--font-body);
-  --text-body-md: var(--weight-regular) var(--type-body) / 1.55 var(--font-body);
-  --text-body-sm: var(--weight-regular) var(--type-small) / 1.55 var(--font-body);
-  --text-caption: var(--weight-medium) var(--type-small) / 1.4 var(--font-body);
-  --text-eyebrow: var(--eyebrow-weight) var(--eyebrow-size) / 1.4 var(--font-caption);
-  --text-button: 600 var(--type-small) / 1 var(--font-body);
-  --text-nav: var(--nav-label-weight) var(--nav-label-size) / 1.4 var(--font-body);
-  /* Debug surfaces only; not vendored, the platform mono face carries it. */
-  --font-mono: ui-monospace, SFMono-Regular, "JetBrains Mono", Menlo, monospace;
-  --text-code: var(--weight-regular) 14px / 1.6 var(--font-mono);
-
-  /* A soft accent wash for picked rows and selected chips. */
-  --accent-tint: color-mix(in srgb, var(--accent) 12%, transparent);
-
-  /* Component states (pass 65). Hover lays one wash over a control's fill and
-     press a deeper one, so hover is always one step below pressed whatever the
-     fill. Ink-based, so it darkens in light and lightens in dark. */
-  --hover-wash: color-mix(in srgb, var(--ink) 5%, transparent);
-  --press-wash: color-mix(in srgb, var(--ink) 10%, transparent);
-
-  /* The weight chart's sky band (Reel shows it, Paper the flat band). The
-     handoff draws it as an svg gradient from these two stops. */
-  --chart-sky-top: rgba(242, 154, 110, 0.38);
-  --chart-sky-bottom: rgba(248, 194, 142, 0.12);
-
-  /* Sheet top corners and the desktop dialog. */
-  --radius-sheet: 28px;
-
-  /* Below the export's 48. Page bottom padding clears the floating tab bar. */
-  --space-96: 96px;
-  --border-width-hairline: 1px;
-  --shadow-none: none;
-
-  /* The shell (pass 66), from the desktop handoff: a 256px side nav, a 1080px
-     content column padded 48px, and a 340px support column beside the main
-     one. The phone pill floats 12px in from the edges and 14px up. */
-  --app-max-width: 580px; /* fills a phone, caps for tablet */
-  --gutter-desktop: 48px;
-  --panel-nav-width: 256px;
-  --panel-nav-width-collapsed: 72px; /* the on-hover rail (pass 47) at rest */
-  --panel-support-width: 340px;
-  --container-app: 1080px;
-  --nav-inset: 12px;
-  --nav-lift: 14px;
-
-  /* The smallest hit area a control may have (pass 74). A control drawn
-     smaller keeps its drawn size and reaches this with an invisible ::after. */
-  --target-min: var(--icon-button);
-
-  /* Side nav labels. --nav-ink is drawn for the phone pill, which Reel light
-     paints dark; the side nav sits on --bg-sunken, so Reel light reads
-     --ink-muted there (below). */
-  --sidenav-ink: var(--nav-ink);
-
-  /* The on-hover rail's right edge while it is open over the content (pass 77). */
-  --rail-open-shadow: 14px 0 28px -16px rgba(80, 50, 25, 0.35);
-
-  /* Settings rows (pass 80): the soft tile behind a row's icon, and its tint
-     on the destructive row. */
-  --icon-tile: 36px;
-  --danger-tint: color-mix(in srgb, var(--danger) 14%, transparent);
-
-  /* The toast's Undo. The pill is --bg-inverse, light in dark themes, where
-     --accent is 2.92:1; there it takes Paper's light coral text instead. */
-  --toast-action-ink: var(--accent);
-
-  /* Breakpoints — REFERENCE ONLY. A custom property can't sit in an @media
-     condition, so queries repeat these as literals. */
-  --bp-compact: 360px;
-  --bp-medium: 600px;
-  --bp-expanded: 840px;
-  --bp-desktop: 1024px;
-  --bp-wide: 1440px;
-
-  --transition-control:
-    background-color var(--dur-fast) var(--ease-out), border-color var(--dur-fast) var(--ease-out),
-    color var(--dur-fast) var(--ease-out);
-  --transition-entry:
-    transform var(--dur-base) var(--ease-out), opacity var(--dur-base) var(--ease-out);
-}
-[data-theme="dark"] {
-  color-scheme: dark;
-  --accent-tint: color-mix(in srgb, var(--accent) 20%, transparent);
-  --toast-action-ink: var(--p-coral-800);
-  --rail-open-shadow: 14px 0 28px -16px rgba(0, 0, 0, 0.6);
-}
-/* --nav-ink on Reel light's sunken fill is 2.03:1. */
-[data-look="reel"]:not([data-theme="dark"]) {
-  --sidenav-ink: var(--ink-muted);
-}
+/* Preview ground: canvas, texture and body face follow the active Look. */
+body{background-color:var(--bg-canvas);background-image:var(--texture);color:var(--ink);font-family:var(--font-body);-webkit-font-smoothing:antialiased}

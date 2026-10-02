@@ -23,6 +23,10 @@ function pagesHeaders() {
 export default defineConfig({
   appType: "mpa",
   build: {
+    // Ship the design's CSS as written: a minifier re-spells values (rgba() to
+    // 8-digit hex, which rounds alpha; ms to s; quotes), and the site is a 1:1
+    // recreation of the design.
+    cssMinify: false,
     rollupOptions: {
       input: { index: "index.html" },
     },
