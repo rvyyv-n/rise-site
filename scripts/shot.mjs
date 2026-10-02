@@ -55,6 +55,12 @@ for (const pair of PAIRS) {
     page.on("request", (r) => !r.url().startsWith(BASE) && !r.url().startsWith("data:") && offOrigin.push(r.url()));
     await page.goto(BASE + PAGE, { waitUntil: "networkidle" });
     await page.evaluate(() => document.fonts.ready);
+    // The lower screens load lazily, and a full-page capture does not scroll to
+    // them, so they are loaded here, as a reader scrolling down would see them.
+    await page.evaluate(() => Promise.all([...document.images].map((i) => {
+      i.loading = "eager";
+      return i.decode().catch(() => {});
+    })));
 
     const layout = await page.evaluate(() => {
       const out = [];
