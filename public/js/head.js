@@ -38,7 +38,7 @@
     theme: saved(KEYS.theme, THEMES) || systemTheme()
   };
 
-  var CONTROLS = '.rs-site, .rs-theme, [data-control="look"] > [role="radio"]';
+  var CONTROLS = '.rs-site, .rs-theme, [data-control="look"] > [role="radio"], .rs-look';
 
   // Bring one element in line with the current state.
   function paint(el) {
@@ -47,6 +47,13 @@
       el.setAttribute("data-theme", state.theme);
     } else if (el.classList.contains("rs-theme")) {
       el.setAttribute("aria-checked", String(state.theme === "dark"));
+    } else if (el.classList.contains("rs-look")) {
+      // A Two Looks tile: its button is pressed, and its Radio filled, when it
+      // is the current pair.
+      var pressed = el.getAttribute("data-pair") === state.look + "-" + state.theme;
+      el.setAttribute("aria-pressed", String(pressed));
+      var radio = el.parentElement.querySelector("[data-radio]");
+      if (radio) radio.style.boxShadow = pressed ? "var(--radio-dot)" : "var(--radio-ring)";
     } else {
       // A Look option in the Rise Segmented control.
       var on = el.getAttribute("data-value") === state.look;

@@ -32,3 +32,7 @@
 @container (max-width:600px){.rs-page{--z-window:.29;--z-hero-phone:.3;--z-look:.44}}
 @container (max-width:480px){.rs-page{--z-window:.22;--z-hero-phone:.26;--z-phone-pair:.36;--z-look:.36}}
 @container (max-width:360px){.rs-page{--z-window:.19;--z-hero-phone:.22;--z-phone:.62;--z-phone-live:.68;--z-phone-pair:.32;--z-look:.28}}
+
+/* The design's Radio at 20px: unselected ring and selected dot. head.js swaps
+   between them on the Two Looks tiles. */
+.rs-site{--radio-ring:inset 0 0 0 1.5px var(--ink-soft);--radio-dot:inset 0 0 0 6px var(--ink)}

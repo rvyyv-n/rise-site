@@ -20,7 +20,6 @@
       "Read(./node_modules/**)",
       "Read(./package-lock.json)",
       "Read(./.wrangler/**)",
-      "Read(./private/rise-website-v1/canvas/ds/riseds/components/bundle.js)",
       "Read(./private/rise-website-v1/canvas/canvas.json)"
     ]
   }

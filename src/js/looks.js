@@ -24,6 +24,12 @@ export function pick(next) {
 const LOOK_OPTION = '[data-control="look"] > [role="radio"]';
 
 function onClick(e) {
+  const tile = e.target.closest(".rs-look");
+  if (tile) {
+    const [look, theme] = tile.dataset.pair.split("-");
+    pick({ look, theme });
+    return;
+  }
   const option = e.target.closest(LOOK_OPTION);
   if (option) {
     pick({ look: option.dataset.value });
