@@ -13,13 +13,13 @@ is git-ignored and never imported, served or committed.
 ## Build passes
 
 A build pass is a group of similar targets, run in one thread on one model. The
-old pass names (S2 to S11) are kept as target names. Build pass 1 is done.
+old pass names (S2 to S11) are kept as target names. Build passes 1 and 2 are done.
 
 | Build pass | Targets | Model | State |
 | --- | --- | --- | --- |
 | 1 `foundation` | scaffold (S2), looks (S3) | Opus 5.5, high | Done |
-| 2 `landing` | hero (S4), sections (S5) | Sonnet 5.5, high | Next |
-| 3 `shots` | shots (S6) | Sonnet 5.5, high | To do |
+| 2 `landing` | hero (S4), sections (S5) | Sonnet 5.5, high | Done |
+| 3 `shots` | shots (S6) | Sonnet 5.5, high | Next |
 | 4 `get and pages` | downloads (S7), privacy (S8) | Sonnet 5.5, high | To do |
 | 5 `interaction` | motion (S9), demo (S10) | Opus 5.5, high | To do |
 | 6 `audit` | audit (S11) | Opus 5.5, high | To do |
@@ -42,31 +42,6 @@ or by hand):
 Each target lists what to read (paths in `H/`), what it does, and when it is
 done. Read only what the target lists. Use `Grep` for the section id in
 `Main.dc.html` and read that range, not the whole file.
-
-### hero (S4)
-
-- **Reads:** `#top` and `#how` in `canvas/Main.dc.html`; their rules in
-  `canvas/site.css`; plan section 3, rows 1 and 2.
-- **Does:** ports both sections into `<main>` in `index.html`. Hero: the "Rıse"
-  wordmark, H1, sub, the Open Rise, Android and Windows CTAs, the fact line,
-  and the desktop window and phone frames (`.rs-window`, `.rs-phone`, CSS only;
-  their screens arrive in `shots`, so the frames stay empty). How it works: the
-  three steps. Links from plan section 3.
-- **Done when:** text matches the source; the top of `landing-1440-*` and
-  `landing-390-*` matches; no overflow at 320.
-
-### sections (S5)
-
-- **Reads:** `#today`, `#weight`, `#plan`, `#looks`, `#quiet`, `#private` in
-  `Main.dc.html`; plan section 3, rows 3 to 8; the tile logic (`pick`) in its
-  script.
-- **Does:** ports the six sections, with Today static for now. The four Two
-  Looks tiles are a picker: wire them through `src/js/looks.js` (`pick`) and
-  `public/js/head.js` (`paint`), so they change the page and show the current
-  pair before first paint.
-- **Done when:** each section matches the middle of the landing renders; the
-  tiles change the page and survive a reload. The Reel light contrast shortfall
-  (open items) shows up in `#private`; report it, don't fix it.
 
 ### shots (S6)
 
@@ -139,13 +114,26 @@ done. Read only what the target lists. Use `Grep` for the section id in
   shortfall (reported), Lighthouse 95 or above, and all 49 renders compared
   once.
 
+## Notes for the next build pass
+
+- Phone and window frames are empty on purpose; `shots` fills them. The page
+  diffs against the landing renders (9 to 53 in the Reel dark and Paper light
+  checks) are those empty screens, not layout.
+- Two Looks tile markup adds two attributes the design does not have:
+  `data-pair` on each `.rs-look` button and `data-radio` on its Radio span.
+  `head.js` sets `aria-pressed` and the Radio ring from them before first paint
+  (ring tokens `--radio-ring`, `--radio-dot` in `site-tokens.css`).
+- The hero tilt handlers (`onPointerMove`/`onPointerLeave`) and the `.rs-js`
+  class are left to `motion`; nothing hides content until it adds `.rs-js`.
+- `/privacy` links 404 until `privacy`; the favicon 404 stays until `privacy`.
+
 ## Repo map
 
 | Path | Holds |
 | --- | --- |
-| `index.html` | The landing page: `.rs-site` shell, header, and `<main>` that the targets fill |
+| `index.html` | The landing page: `.rs-site` shell, header, and `<main>` with the hero, How it works, Today, Weight, Plan, Two Looks, No nagging and Private sections; `shots` fills the empty `.rs-phone-screen` and `.rs-window-screen` frames and `downloads` adds `#get` |
 | `public/js/head.js` | Blocking no-flash script: sets `data-look` and `data-theme`, paints the controls as they are parsed; `window.RiseLooks` |
-| `src/js/looks.js`, `main.js` | Look and theme clicks and arrow keys; follows the device until a theme is picked |
+| `src/js/looks.js`, `main.js` | Look and theme clicks and arrow keys, and the four Two Looks tiles (`.rs-look`, `data-pair`); follows the device until a theme is picked |
 | `src/css/tokens.css` | The design's `bundle.css`, unchanged |
 | `src/css/site-tokens.css` | Site tokens and `--z-*` screen scales from the handoff `site.css` |
 | `src/css/site.css` | The handoff `site.css` as exported (ratcheted) |
@@ -176,8 +164,8 @@ Look and theme are saved under `rise-site:look` and `rise-site:theme`.
 - Set `CLOUDFLARE_API_TOKEN` (above).
 - **Reel light contrast:** with the design's tokens, `--ink-muted` (4.40:1) and
   `--accent-text` (4.10:1) on `--bg-sunken` fall below 4.5:1. Kept to stay 1:1.
-  Affects the header's unselected Look option and, from `sections`, the Private
-  by design panel. `audit` reports it.
+  Affects the header's unselected Look option and the Private by design panel
+  (now in). `audit` reports it.
 - The Look radiogroup has no accessible name, because the design gives none.
 - Plan section 10's open questions: whether "2 things use the network" stays;
   whether the wording added during design stands; Variant 2 later. (The
