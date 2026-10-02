@@ -1,0 +1,27 @@
+{
+  "attribution": {
+    "commit": "",
+    "pr": ""
+  },
+  "permissions": {
+    "allow": [
+      "Bash(npm test)",
+      "Bash(npm run build)",
+      "Bash(npm run preview *)",
+      "Bash(npm run -s shot *)",
+      "Bash(npm run -s check:looks)",
+      "Bash(npm run check:headers *)",
+      "Bash(git status *)",
+      "Bash(git diff *)",
+      "Bash(git log *)"
+    ],
+    "deny": [
+      "Read(./dist/**)",
+      "Read(./node_modules/**)",
+      "Read(./package-lock.json)",
+      "Read(./.wrangler/**)",
+      "Read(./private/rise-website-v1/canvas/ds/riseds/components/bundle.js)",
+      "Read(./private/rise-website-v1/canvas/canvas.json)"
+    ]
+  }
+}

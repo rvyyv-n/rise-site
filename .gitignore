@@ -4,3 +4,4 @@ private/
 node_modules/
 dist/
 .wrangler/
+.shots/

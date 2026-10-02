@@ -10,9 +10,13 @@
     "preview": "vite preview",
     "test": "vitest run",
     "pages:dev": "wrangler pages dev dist --port 8788",
-    "check:headers": "node scripts/check-headers.mjs"
+    "check:headers": "node scripts/check-headers.mjs",
+    "shot": "node scripts/shot.mjs",
+    "check:looks": "node scripts/check-looks.mjs"
   },
   "devDependencies": {
+    "playwright-core": "^1.63.0",
+    "sharp": "^0.35.5",
     "vite": "^8.3.2",
     "vitest": "^5.0.3",
     "wrangler": "^4.146.0"
