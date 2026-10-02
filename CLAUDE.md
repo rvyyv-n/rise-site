@@ -15,7 +15,9 @@ The handoff is `private/rise-website-v1/`: never import, serve or commit it.
   tooling paths themselves (this file's name and the tooling folder). Local git hooks
   (`commit-msg`, `pre-commit`, `pre-push`, untracked, from diet-tracker)
   reject a forbidden name in added lines or messages, and a wrong author or
-  committer. Never bypass them with `--no-verify`.
+  committer. Never bypass them with `--no-verify`. The checkout's parent
+  folder carries the forbidden name, so write repo-relative paths, never
+  absolute ones.
 - Plain HTML, CSS and JS. No framework or UI library.
 - Nothing leaves the origin: no CDNs, font services, analytics, third-party
   scripts or embeds.
