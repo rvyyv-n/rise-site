@@ -40,3 +40,32 @@ body{margin:0}
 @container (max-width:22.5em){
   div:has(> .rs-glyph + div > [data-asset]){grid-template-columns:minmax(0,1fr)!important}
 }
+
+/* The fonts swap in after the first paint. So that lines don't rewrap and
+   push the page down when they do, each face gets a local fallback (Arial or
+   Georgia, or their metric twins) sized to it: size-adjust matches its width
+   over the text of the landing and privacy pages, and the overrides match its ascent and descent
+   (each divided by the size-adjust). The stacks are tokens.css's, with that
+   fallback added after the face, so what is drawn once the fonts load is
+   unchanged. */
+@font-face{font-family:'Barlow Semi Condensed fallback';src:local('Arial'),local('ArialMT'),local('Liberation Sans'),local('Arimo');font-weight:100 549;size-adjust:87.5%;ascent-override:114.3%;descent-override:22.9%;line-gap-override:0%}
+@font-face{font-family:'Barlow Semi Condensed fallback';src:local('Arial Bold'),local('Arial-BoldMT'),local('Liberation Sans Bold'),local('Arimo Bold');font-weight:550 900;size-adjust:81.4%;ascent-override:122.9%;descent-override:24.6%;line-gap-override:0%}
+@font-face{font-family:'Atkinson Next fallback';src:local('Arial'),local('ArialMT'),local('Liberation Sans'),local('Arimo');font-weight:100 549;size-adjust:98.6%;ascent-override:99.4%;descent-override:32.5%;line-gap-override:0%}
+@font-face{font-family:'Atkinson Next fallback';src:local('Arial Bold'),local('Arial-BoldMT'),local('Liberation Sans Bold'),local('Arimo Bold');font-weight:550 900;size-adjust:98.5%;ascent-override:99.5%;descent-override:32.5%;line-gap-override:0%}
+@font-face{font-family:'Newsreader fallback';src:local('Georgia'),local('Gelasio');font-style:normal;size-adjust:92%;ascent-override:80.4%;descent-override:29.3%;line-gap-override:0%}
+@font-face{font-family:'Newsreader fallback';src:local('Georgia Italic'),local('Georgia-Italic'),local('Gelasio Italic');font-style:italic;size-adjust:87.2%;ascent-override:84.9%;descent-override:31%;line-gap-override:0%}
+@font-face{font-family:'Fraunces fallback';src:local('Georgia'),local('Gelasio');font-style:normal;font-weight:100 549;size-adjust:101.2%;ascent-override:96.8%;descent-override:25.7%;line-gap-override:0%}
+@font-face{font-family:'Fraunces fallback';src:local('Georgia Bold'),local('Georgia-Bold'),local('Gelasio Bold');font-style:normal;font-weight:550 900;size-adjust:77.6%;ascent-override:126.3%;descent-override:33.5%;line-gap-override:0%}
+@font-face{font-family:'Fraunces fallback';src:local('Georgia Italic'),local('Georgia-Italic'),local('Gelasio Italic');font-style:italic;size-adjust:84.8%;ascent-override:115.6%;descent-override:30.7%;line-gap-override:0%}
+:root,[data-look="paper"]{
+  --font-display:'Fraunces','Fraunces fallback',Georgia,serif;
+  --font-body:'Atkinson Next','Atkinson Next fallback',system-ui,sans-serif;
+  --font-numeric:'Atkinson Next','Atkinson Next fallback',system-ui,sans-serif;
+  --font-caption:'Atkinson Next','Atkinson Next fallback',system-ui,sans-serif;
+}
+[data-look="reel"],[data-theme="reel-light"],[data-theme="reel-dark"]{
+  --font-display:'Newsreader','Newsreader fallback',Georgia,serif;
+  --font-body:'Barlow Semi Condensed','Barlow Semi Condensed fallback',system-ui,sans-serif;
+  --font-numeric:'Barlow Semi Condensed','Barlow Semi Condensed fallback',system-ui,sans-serif;
+  --font-caption:'Barlow Semi Condensed','Barlow Semi Condensed fallback',system-ui,sans-serif;
+}
