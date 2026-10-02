@@ -28,7 +28,7 @@ export default defineConfig({
     // recreation of the design.
     cssMinify: false,
     rollupOptions: {
-      input: { index: "index.html" },
+      input: { index: "index.html", privacy: "privacy.html", notfound: "404.html" },
     },
   },
   preview: {

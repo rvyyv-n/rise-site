@@ -9,7 +9,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
-const API = "https://api.github.com/repos/rvyyv-n/diet-tracker/releases/latest";
+const API = process.env.RISE_RELEASE_API || "https://api.github.com/repos/rvyyv-n/diet-tracker/releases/latest";
 const DESIGN = {
   version: "v3.0.0",
   android: { name: "Rise_3.0.0.apk", size: "2.52 MB" },

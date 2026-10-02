@@ -2,7 +2,7 @@
 // with the matching render. One line per shot, so a check costs little to read.
 //
 //   node scripts/shot.mjs [--page /] [--pairs reel-dark,paper-light] [--widths 1440,390]
-//                         [--y 0] [--h 900] [--eval "js expression"] [--base http://localhost:4173]
+//                         [--y 0] [--h 900] [--vh 900] [--eval "js expression"] [--base http://localhost:4173]
 //
 // --y and --h pick the region to compare, in CSS px from the top of the page
 // (default: the whole render). Each shot writes .shots/cmp-<render>.png, the
@@ -38,7 +38,7 @@ for (const pair of PAIRS) {
     const [look, theme] = pair.split("-");
     const scale = width <= 390 && width !== 320 ? 2 : 1;
     const ctx = await browser.newContext({
-      viewport: { width, height: width >= 1024 ? 900 : 844 },
+      viewport: { width, height: args.vh ? Number(args.vh) : width >= 1024 ? 900 : 844 },
       deviceScaleFactor: scale,
       reducedMotion: "reduce",
     });

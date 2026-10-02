@@ -17,8 +17,8 @@ const WANT = {
   "referrer-policy": "no-referrer",
 };
 
-// Each path a visitor can land on. /privacy and /404 come in S8.
-const PATHS = ["/"];
+// Each path a visitor can land on.
+const PATHS = ["/", "/privacy", "/404"];
 
 // A fresh deployment can take a little while to answer (DNS, certificate), so
 // retry network errors for up to a minute before giving up.
