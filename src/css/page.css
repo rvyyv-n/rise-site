@@ -8,3 +8,12 @@ body{margin:0}
    (--icon-button) without changing what is drawn. */
 [data-control="look"] > [role="radio"]{position:relative}
 [data-control="look"] > [role="radio"]::after{content:"";position:absolute;inset:calc((var(--icon-button) - 100%) / -2) 0}
+
+/* The Install switch on Get Rise is the same Segmented control, so it gets the
+   same 44px targets. */
+[data-control="install"] > [role="radio"]{position:relative}
+[data-control="install"] > [role="radio"]::after{content:"";position:absolute;inset:calc((var(--icon-button) - 100%) / -2) 0}
+
+/* Panels and tags the script shows or hides carry the hidden attribute; their
+   own display (set inline or by .rs-tag) must not override it. */
+[hidden]{display:none !important}

@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "vite build && node scripts/release.mjs",
     "preview": "vite preview",
     "test": "vitest run",
     "pages:dev": "wrangler pages dev dist --port 8788",
