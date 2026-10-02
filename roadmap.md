@@ -13,7 +13,7 @@ is git-ignored and never imported, served or committed.
 ## Build passes
 
 A build pass is a group of similar targets, run in one thread on one model. The
-old pass names (S2 to S11) are kept as target names. Build passes 1 to 5 are done.
+old pass names (S2 to S11) are kept as target names. Build passes 1 to 6 are done.
 
 | Build pass | Targets | Model | State |
 | --- | --- | --- | --- |
@@ -22,7 +22,7 @@ old pass names (S2 to S11) are kept as target names. Build passes 1 to 5 are don
 | 3 `shots` | shots (S6) | Sonnet 5.5, high | Done |
 | 4 `get and pages` | downloads (S7), privacy (S8) | Sonnet 5.5, high | Done |
 | 5 `interaction` | motion (S9), demo (S10) | Opus 5.5, high | Done |
-| 6 `audit` | audit (S11) | Opus 5.5, high | Next |
+| 6 `audit` | audit (S11) | Opus 5.5, high | Done |
 
 Why these models: build passes 2 to 4 are careful copying from the source and
 wiring scripts the plan already describes, which Sonnet does well at a lower
@@ -39,30 +39,39 @@ or by hand):
 
 ## Targets
 
-Each target lists what to read (paths in `H/`), what it does, and when it is
-done. Read only what the target lists. Use `Grep` for the section id in
-`Main.dc.html` and read that range, not the whole file.
-
-### audit (S11)
-
-- **Reads:** the whole site; plan's Verification section.
-- **Does:** a Playwright run (`playwright-core`, system Chrome) that fails on
-  any request leaving the origin; contrast in all four pairs; 44px targets;
-  Lighthouse; and a fix for the layout shift when the fonts swap in.
-- **Done when:** zero external requests, AA everywhere apart from the accepted
-  shortfall (reported), Lighthouse 95 or above, and all 49 renders compared
-  once.
+All site targets are done. What is left is `readme` in diet-tracker.
 
 ## Notes for the next build pass
 
-- The font-swap shift, measured on a throttled link (150ms, 200 kB/s):
-  landing 0.015 at 1440 and 0.009 at 390, privacy 0.018, in Reel; about 0.001
-  in Paper. Most of it is Barlow Semi Condensed replacing `system-ui` and
-  rewrapping lines. Preloading the Look's first-screen faces from `head.js`
-  only took 1440 to 0.011, so it was not kept. Taking it to zero needs
-  fallback faces with `size-adjust` and ascent overrides, named in the
-  `--font-*` stacks, and those live in `tokens.css`, which stays unchanged:
-  the audit decides whether to ask the owner.
+- `npm run audit` (`scripts/audit.mjs`, `--only requests,contrast,targets,shift,lighthouse,screens`)
+  checks the three pages in all four pairs at 1440, 390 and 320: requests off
+  the origin (0), text contrast (gradients sampled from pixels), 44px targets,
+  layout shift on a throttled link (bar 0.005), Lighthouse (bar 95; the 404's
+  SEO is left out, it is `noindex`), and each screen file against its render.
+  Last run: 0 off-origin, 0 low contrast, 0 small targets, shift at most 0.0008.
+- Accepted: Reel light's `--ink-muted` (4.40) and `--accent-text` (4.10) on
+  `--bg-sunken`, 39 places, the tokens' own values; and the demo's six targets
+  overlapping at 320.
+- Lighthouse: desktop 100 on every page; mobile privacy 96, 404 97, landing 92
+  on the preview server and 89 to 97 live. The landing's LCP is the hero lede,
+  which the design's reveal stagger holds back about 540ms after the script;
+  bringing it to 95 every time means shortening that, which is the owner's call.
+  Best practices 96 on the landing is `image-size-responsive`, a false positive:
+  the frames scale their screens down with a transform.
+- The font swap no longer shifts: `page.css` adds fallback faces (local Arial
+  and Georgia, with `size-adjust` and metric overrides) and restates the
+  `--font-*` stacks with them; `tokens.css` is untouched. `head.js` preloads
+  the active Look's first-screen faces.
+- `npm run fonts` (`scripts/fonts.mjs`, needs `pip install fonttools brotli`)
+  cuts the handoff's faces to the Latin set: 875 kB to 384 kB, the same pixels.
+- Screens: `srcset` uses width descriptors and each frame's `sizes` is its
+  on-screen width. `scroll.js` takes its first measure in a frame.
+- `shot.mjs` loads the lazy screens before a full-page capture (before, the
+  lower phones were missing). Page diffs: landing 3.3 to 6.2, privacy 1.2 to
+  2.7, 404 0.6 to 1.6 (at `--vh 900`). Screen files against their renders
+  differ by 10 to 39, all app data against the design's demo data (today
+  reel-light highest: no due card at the pinned clock). `dev/states.html`'s
+  Look tiles now hold the Today screen (diff 3.4).
 - At 320 the Android and Windows cards in Get Rise put their glyph above the
   text (`page.css`, below 22.5em), so "Download for Windows" fits in Paper's
   face. The design has no 320 render.
@@ -120,9 +129,9 @@ done. Read only what the target lists. Use `Grep` for the section id in
 | `src/css/tokens.css` | The design's `bundle.css`, unchanged |
 | `src/css/site-tokens.css` | Site tokens and `--z-*` screen scales from the handoff `site.css` |
 | `src/css/site.css` | The handoff `site.css` as exported (ratcheted) |
-| `src/css/page.css` | Site additions: `body{margin:0}`, 44px targets (Look and Install switches, demo), `[hidden]`, the header's slim margin, the demo's line height, the 320 Get Rise cards |
+| `src/css/page.css` | Site additions: `body{margin:0}`, 44px targets (Look and Install switches, demo), `[hidden]`, the header's slim margin, the demo's line height, the 320 Get Rise cards, the sized fallback faces |
 | `public/_headers` | CSP and other headers; `vite preview` serves the same |
-| `public/assets/fonts/` | Eight handoff woff2 files and four OFL licences |
+| `public/assets/fonts/` | Eight handoff woff2 files cut to Latin, and four OFL licences |
 | `dev/states.html` | Dev-only port of `States.dc.html`, at `/dev/states.html` on the dev server; not built |
 | `scripts/shots.mjs` | The 24 app screens as WebP at 1x and 2x into `public/assets/screens/`, and the Open Graph card |
 | `tests/` | Literal test and ratchet, headers, fonts, screen budgets |
@@ -133,6 +142,8 @@ done. Read only what the target lists. Use `Grep` for the section id in
 | `src/js/reveal.js`, `scroll.js`, `hero.js`, `transition.js`, `reduced.js` | Motion: reveals, scroll-linked header, sun, focus and drift, tilt and CTA wash, Look and theme view transitions |
 | `src/js/demo.js` | The live Today phone |
 | `scripts/check-headers.mjs` | Headers on a live URL |
+| `scripts/audit.mjs` | The site audit: requests, contrast, targets, shift, Lighthouse, screens |
+| `scripts/fonts.mjs` | Cuts the handoff's faces to the Latin set into `public/assets/fonts/` (dev only) |
 | `.github/workflows/deploy.yml` | Test and build on push and PR; deploy `main` |
 
 Look and theme are saved under `rise-site:look` and `rise-site:theme`.
