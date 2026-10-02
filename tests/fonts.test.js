@@ -1,7 +1,8 @@
 import { describe, expect, it } from "vitest";
 import fs from "node:fs";
 
-// The site ships the design handoff's font files, each family with its licence.
+// The site ships the design handoff's faces, cut to the Latin set by
+// scripts/fonts.mjs, each family with its licence.
 const DIR = "public/assets/fonts";
 const FAMILIES = {
   "AtkinsonHyperlegibleNext-OFL.txt": ["atkinson-next.woff2"],
