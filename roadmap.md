@@ -35,11 +35,13 @@ or by hand):
 | Target | Model | When |
 | --- | --- | --- |
 | `site-hook`: a release triggers a site deploy | Sonnet 5.5, medium | After build pass 4 |
-| `readme`: the README links the site first | Haiku 4.5 | After build pass 6 |
+| `readme`: the README links the site first | Sonnet 5.5, medium | After build pass 6 |
 
 ## Targets
 
-All site targets are done. What is left is `readme` in diet-tracker.
+All site targets are done. What is left is `readme` in diet-tracker (Sonnet
+5.5, medium), and a motion check right before the deploy: `npm run check:motion`
+on Opus 5.5, medium, in its own thread, then the manual deploy below.
 
 ## Notes for the next build pass
 
@@ -161,11 +163,15 @@ Look and theme are saved under `rise-site:look` and `rise-site:theme`.
 ## Open items for the owner
 
 - Set `CLOUDFLARE_API_TOKEN` (above).
-- **Reel light contrast:** with the design's tokens, `--ink-muted` (4.40:1) and
-  `--accent-text` (4.10:1) on `--bg-sunken` fall below 4.5:1. Kept to stay 1:1.
-  Affects the header's unselected Look option and the Private by design panel
-  (now in). `audit` reports it.
-- The Look radiogroup has no accessible name, because the design gives none.
-- Plan section 10's open questions: whether "2 things use the network" stays;
-  whether the wording added during design stands; Variant 2 later. (The
-  numbering question is settled: build passes, with the S names as targets.)
+
+Settled 2026-10-02:
+
+- **Reel light contrast:** dismissed. `--ink-muted` (4.40:1) and `--accent-text`
+  (4.10:1) on `--bg-sunken` stay as the design's tokens have them. `audit`
+  keeps reporting them as accepted.
+- **Look radiogroup name:** fixed. The three pages give it `aria-label="Look"`
+  (the design gives none; a change from the design, an accessibility fix).
+- **Plan section 10:** "2 things use the network" stays, and the privacy page
+  says "Only two things use the network". It is true, and the site's zero
+  off-origin requests are about third parties, which is a different count. The
+  wording added during design stands.
