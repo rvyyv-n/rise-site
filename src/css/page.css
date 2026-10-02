@@ -33,3 +33,10 @@ body{margin:0}
 /* The design draws the Today screen as its own document, at the browser's
    normal line height, not the page's. */
 [data-demo]{line-height:normal}
+
+/* At 320 the Android and Windows cards leave too little room beside their
+   glyph for "Download for Windows" in Paper's face, so below 360 (22.5em) the
+   glyph sits above the card's text instead. The design has no 320 render. */
+@container (max-width:22.5em){
+  div:has(> .rs-glyph + div > [data-asset]){grid-template-columns:minmax(0,1fr)!important}
+}
