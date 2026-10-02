@@ -20,10 +20,23 @@ const WANT = {
 // Each path a visitor can land on. /privacy and /404 come in S8.
 const PATHS = ["/"];
 
+// A fresh deployment can take a little while to answer (DNS, certificate), so
+// retry network errors for up to a minute before giving up.
+async function get(url) {
+  for (let i = 0; ; i++) {
+    try {
+      return await fetch(url, { redirect: "manual" });
+    } catch (e) {
+      if (i >= 11) throw e;
+      await new Promise((r) => setTimeout(r, 5000));
+    }
+  }
+}
+
 let failed = 0;
 for (const p of PATHS) {
   const url = new URL(p, base).href;
-  const res = await fetch(url, { redirect: "manual" });
+  const res = await get(url);
   console.log(`${res.status} ${url}`);
   if (res.status !== 200) {
     console.log("  FAIL status");

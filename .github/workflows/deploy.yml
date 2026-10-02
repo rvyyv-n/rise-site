@@ -51,8 +51,7 @@ jobs:
         if: env.CLOUDFLARE_API_TOKEN != ''
       - run: npm run build
         if: env.CLOUDFLARE_API_TOKEN != ''
-      - id: pages
-        uses: cloudflare/wrangler-action@v3
+      - uses: cloudflare/wrangler-action@v3
         if: env.CLOUDFLARE_API_TOKEN != ''
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
@@ -60,4 +59,4 @@ jobs:
           command: pages deploy dist --project-name=getrise --branch=main
       - name: Check the deployed headers
         if: env.CLOUDFLARE_API_TOKEN != ''
-        run: node scripts/check-headers.mjs "${{ steps.pages.outputs.deployment-url }}"
+        run: node scripts/check-headers.mjs https://getrise.pages.dev
