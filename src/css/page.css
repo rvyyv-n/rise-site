@@ -22,3 +22,14 @@ body{margin:0}
    margin below it, in step, so nothing under it moves. */
 .rs-site .rs-header{transition:background-color 400ms var(--ease-site),transform 500ms var(--ease-site),margin-bottom 400ms var(--ease-site)}
 .rs-site .rs-header.is-stuck{margin-bottom:var(--header-slim)}
+
+/* The live Today phone is drawn at --z-phone-live, so its tick controls (28px
+   circles, 52px buttons, the toast's 40px Undo) render smaller still. An
+   invisible ::after grows each one to a 44px target (--icon-button) on screen,
+   never shrinking a larger one. */
+[data-demo] button:not([inert], [inert] *, [disabled]){position:relative}
+[data-demo] button:not([inert], [inert] *, [disabled])::after{content:"";position:absolute;inset:min(0%, calc((var(--icon-button) / var(--z-phone-live) - 100%) / -2))}
+
+/* The design draws the Today screen as its own document, at the browser's
+   normal line height, not the page's. */
+[data-demo]{line-height:normal}

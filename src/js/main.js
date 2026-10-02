@@ -3,9 +3,11 @@ import { initScroll } from "./scroll.js";
 import { initHero } from "./hero.js";
 import { initLooks } from "./looks.js";
 import { initInstall } from "./install.js";
+import { initDemo } from "./demo.js";
 
 initReveal();
 initScroll();
 initHero();
 initLooks();
 initInstall();
+initDemo();

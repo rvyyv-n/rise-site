@@ -24,7 +24,8 @@ describe("screens", () => {
   it("every image in the page has width, height and alt text", () => {
     const html = fs.readFileSync("index.html", "utf8");
     const imgs = html.match(/<img\b[^>]*>/g) ?? [];
-    expect(imgs.length).toBeGreaterThanOrEqual(11);
+    // Ten: the Today section phone is the live demo, not an image.
+    expect(imgs.length).toBeGreaterThanOrEqual(10);
     for (const img of imgs) {
       expect(img).toMatch(/\swidth="\d+"/);
       expect(img).toMatch(/\sheight="\d+"/);
