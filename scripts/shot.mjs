@@ -3,12 +3,14 @@
 //
 //   node scripts/shot.mjs [--page /] [--pairs reel-dark,paper-light] [--widths 1440,390]
 //                         [--y 0] [--h 900] [--vh 900] [--eval "js expression"] [--base http://localhost:4173]
+//                         [--motion 1]
 //
 // --y and --h pick the region to compare, in CSS px from the top of the page
 // (default: the whole render). Each shot writes .shots/cmp-<render>.png, the
 // render above and the build below, cropped to that region. Look at it only
 // when the diff or a check calls for it. Motion is reduced, so every shot shows
-// the settled state, as the renders do. Needs `npm run preview` running.
+// the settled state, as the renders do; --motion 1 leaves it on, to check
+// timing with --eval. Needs `npm run preview` running.
 import fs from "node:fs";
 import { chromium } from "playwright-core";
 import sharp from "sharp";
@@ -40,7 +42,7 @@ for (const pair of PAIRS) {
     const ctx = await browser.newContext({
       viewport: { width, height: args.vh ? Number(args.vh) : width >= 1024 ? 900 : 844 },
       deviceScaleFactor: scale,
-      reducedMotion: "reduce",
+      reducedMotion: args.motion ? "no-preference" : "reduce",
     });
     await ctx.addInitScript(([l, t]) => {
       localStorage.setItem("rise-site:look", l);

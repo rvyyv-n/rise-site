@@ -36,3 +36,7 @@
 /* The design's Radio at 20px: unselected ring and selected dot. head.js swaps
    between them on the Two Looks tiles. */
 .rs-site{--radio-ring:inset 0 0 0 1.5px var(--ink-soft);--radio-dot:inset 0 0 0 6px var(--ink)}
+
+/* Site addition: the height the header loses when it slims (16px to 6px of
+   padding, top and bottom). page.css gives it back as margin. */
+.rs-site{--header-slim:20px}

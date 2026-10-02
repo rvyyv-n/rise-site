@@ -154,9 +154,11 @@ html.rs-wipe::view-transition-new(root){z-index:1}
 .rs-js [data-reveal="draw"].is-in{background-size:100% 100%!important}
 .rs-js [data-reveal="rise"].is-in>span{transform:none}
 
-/* the hero sun: rises once on load, sets when the page goes dark, rises again for light */
+/* the hero sun: rises once on load, sets when the page goes dark, rises again for light.
+   The design filled the sunrise "both", which holds transform once it ends, so the
+   set and rise never ran; "backwards" lets the transition take over. */
 @keyframes rs-sunrise{from{transform:translateY(70%)}}
-.rs-hero-sun{width:100%;height:100%;border-radius:50%;background:var(--sun);transition:transform var(--dur-sunrise) var(--ease-site);animation:rs-sunrise var(--dur-sunrise) var(--ease-site) 300ms both}
+.rs-hero-sun{width:100%;height:100%;border-radius:50%;background:var(--sun);transition:transform var(--dur-sunrise) var(--ease-site);animation:rs-sunrise var(--dur-sunrise) var(--ease-site) 300ms backwards}
 [data-theme="dark"] .rs-hero-sun{transform:translateY(27%)}
 @media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
 

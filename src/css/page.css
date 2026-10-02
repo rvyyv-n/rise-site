@@ -17,3 +17,8 @@ body{margin:0}
 /* Panels and tags the script shows or hides carry the hidden attribute; their
    own display (set inline or by .rs-tag) must not override it. */
 [hidden]{display:none !important}
+
+/* The header slims as the page scrolls. The height it loses comes back as
+   margin below it, in step, so nothing under it moves. */
+.rs-site .rs-header{transition:background-color 400ms var(--ease-site),transform 500ms var(--ease-site),margin-bottom 400ms var(--ease-site)}
+.rs-site .rs-header.is-stuck{margin-bottom:var(--header-slim)}

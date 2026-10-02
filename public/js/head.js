@@ -83,6 +83,21 @@
 
   paintRoot();
 
+  // Reveals hide things until they come into view (src/js/reveal.js), so the
+  // page is marked before the first paint, never after it. With reduced motion,
+  // or no IntersectionObserver, nothing is hidden. If the page script never
+  // runs, the mark comes off at load, so nothing stays hidden.
+  var still = false;
+  try {
+    still = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  } catch (e) {}
+  if (!still && "IntersectionObserver" in window) {
+    document.documentElement.classList.add("rs-js");
+    window.addEventListener("load", function () {
+      if (!window.RiseReveal) document.documentElement.classList.remove("rs-js");
+    });
+  }
+
   // While the page is parsed, catch each control as it arrives.
   var parsing = new MutationObserver(function (records) {
     for (var r = 0; r < records.length; r++) {
@@ -111,7 +126,7 @@
     get: function () {
       return { look: state.look, theme: state.theme };
     },
-    // Switch at once. S9's view transition wraps this call.
+    // Switch at once. src/js/transition.js wraps this call in a view transition.
     set: function (next) {
       state = {
         look: LOOKS.indexOf(next.look) >= 0 ? next.look : state.look,
