@@ -13,14 +13,14 @@ is git-ignored and never imported, served or committed.
 ## Build passes
 
 A build pass is a group of similar targets, run in one thread on one model. The
-old pass names (S2 to S11) are kept as target names. Build passes 1 and 2 are done.
+old pass names (S2 to S11) are kept as target names. Build passes 1 to 3 are done.
 
 | Build pass | Targets | Model | State |
 | --- | --- | --- | --- |
 | 1 `foundation` | scaffold (S2), looks (S3) | Opus 5.5, high | Done |
 | 2 `landing` | hero (S4), sections (S5) | Sonnet 5.5, high | Done |
-| 3 `shots` | shots (S6) | Sonnet 5.5, high | Next |
-| 4 `get and pages` | downloads (S7), privacy (S8) | Sonnet 5.5, high | To do |
+| 3 `shots` | shots (S6) | Sonnet 5.5, high | Done |
+| 4 `get and pages` | downloads (S7), privacy (S8) | Sonnet 5.5, high | Next |
 | 5 `interaction` | motion (S9), demo (S10) | Opus 5.5, high | To do |
 | 6 `audit` | audit (S11) | Opus 5.5, high | To do |
 
@@ -42,20 +42,6 @@ or by hand):
 Each target lists what to read (paths in `H/`), what it does, and when it is
 done. Read only what the target lists. Use `Grep` for the section id in
 `Main.dc.html` and read that range, not the whole file.
-
-### shots (S6)
-
-- **Reads:** plan section 6; the five `canvas/Shot*.dc.html` for what each
-  screen shows; diet-tracker's `scripts/readme-shots.mjs`.
-- **Does:** `scripts/shots.mjs` runs against the app's dev server and writes
-  WebP at 1x and 2x with `sharp`: Today, Weight, Plan groceries, Plan targets,
-  Settings (390×844) and Desktop Today (1440×900), in all four pairs. Plus the
-  1200×630 Open Graph card from the hero. Puts them in the hero, sections and
-  tiles with `width`, `height` and alt text. Only the active pair loads, lazily
-  below the fold, and each swaps with Look and theme.
-- **Done when:** all 24 screens at both densities are in, under their budgets,
-  and compared once against the `screen-*.jpg` renders. Never crop or ship the
-  renders.
 
 ### downloads (S7)
 
@@ -116,9 +102,14 @@ done. Read only what the target lists. Use `Grep` for the section id in
 
 ## Notes for the next build pass
 
-- Phone and window frames are empty on purpose; `shots` fills them. The page
-  diffs against the landing renders (9 to 53 in the Reel dark and Paper light
-  checks) are those empty screens, not layout.
+- The frames now hold the real app screens (`scripts/shots.mjs`; the app's dev
+  server on port 5199, run `node scripts/shots.mjs`, then `og` against a
+  preview). `head.js` sets each `img[data-screen]` to the active pair; the four
+  Two Looks tiles have fixed sources. The Today section phone is a plain image
+  until `demo` replaces it. The Open Graph card is `public/assets/og.jpg`;
+  `privacy` adds the meta tags that point at it. Page diffs against the landing
+  renders now include the real app's data, which differs from the design's demo
+  data (grocery quantities, Settings content, a few totals).
 - Two Looks tile markup adds two attributes the design does not have:
   `data-pair` on each `.rs-look` button and `data-radio` on its Radio span.
   `head.js` sets `aria-pressed` and the Radio ring from them before first paint
@@ -131,7 +122,7 @@ done. Read only what the target lists. Use `Grep` for the section id in
 
 | Path | Holds |
 | --- | --- |
-| `index.html` | The landing page: `.rs-site` shell, header, and `<main>` with the hero, How it works, Today, Weight, Plan, Two Looks, No nagging and Private sections; `shots` fills the empty `.rs-phone-screen` and `.rs-window-screen` frames and `downloads` adds `#get` |
+| `index.html` | The landing page: `.rs-site` shell, header, and `<main>` with the hero, How it works, Today, Weight, Plan, Two Looks, No nagging and Private sections; the frames hold the app screens, and `downloads` adds `#get` |
 | `public/js/head.js` | Blocking no-flash script: sets `data-look` and `data-theme`, paints the controls as they are parsed; `window.RiseLooks` |
 | `src/js/looks.js`, `main.js` | Look and theme clicks and arrow keys, and the four Two Looks tiles (`.rs-look`, `data-pair`); follows the device until a theme is picked |
 | `src/css/tokens.css` | The design's `bundle.css`, unchanged |
@@ -141,7 +132,8 @@ done. Read only what the target lists. Use `Grep` for the section id in
 | `public/_headers` | CSP and other headers; `vite preview` serves the same |
 | `public/assets/fonts/` | Eight handoff woff2 files and four OFL licences |
 | `dev/states.html` | Dev-only port of `States.dc.html`, at `/dev/states.html` on the dev server; not built |
-| `tests/` | Literal test and ratchet, headers, fonts |
+| `scripts/shots.mjs` | The 24 app screens as WebP at 1x and 2x into `public/assets/screens/`, and the Open Graph card |
+| `tests/` | Literal test and ratchet, headers, fonts, screen budgets |
 | `scripts/shot.mjs` | Screenshots, layout checks and render diffs, one line per shot |
 | `scripts/check-looks.mjs` | Look and theme behaviour, including no flash |
 | `scripts/check-headers.mjs` | Headers on a live URL |

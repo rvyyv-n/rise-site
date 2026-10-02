@@ -38,11 +38,16 @@
     theme: saved(KEYS.theme, THEMES) || systemTheme()
   };
 
-  var CONTROLS = '.rs-site, .rs-theme, [data-control="look"] > [role="radio"], .rs-look';
+  var CONTROLS = '.rs-site, .rs-theme, [data-control="look"] > [role="radio"], .rs-look, img[data-screen]';
 
   // Bring one element in line with the current state.
   function paint(el) {
-    if (el.classList.contains("rs-site")) {
+    if (el.hasAttribute("data-screen")) {
+      // A screenshot: only the active pair is requested, and a change swaps the file.
+      var base = "/assets/screens/" + el.getAttribute("data-screen") + "-" + state.look + "-" + state.theme;
+      el.srcset = base + ".webp 1x, " + base + "@2x.webp 2x";
+      el.src = base + ".webp";
+    } else if (el.classList.contains("rs-site")) {
       el.setAttribute("data-look", state.look);
       el.setAttribute("data-theme", state.theme);
     } else if (el.classList.contains("rs-theme")) {
