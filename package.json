@@ -1,0 +1,25 @@
+{
+  "name": "rise-site",
+  "private": true,
+  "version": "0.0.0",
+  "description": "The Rise marketing site. Static HTML and CSS, built by Vite.",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test": "vitest run",
+    "sync-tokens": "node scripts/sync-tokens.mjs",
+    "pages:dev": "wrangler pages dev dist --port 8788",
+    "check:headers": "node scripts/check-headers.mjs"
+  },
+  "devDependencies": {
+    "vite": "^8.3.2",
+    "vitest": "^5.0.3",
+    "wrangler": "^4.146.0"
+  },
+  "allowScripts": {
+    "esbuild@0.28.1": true,
+    "workerd@1.20261001.1": true
+  }
+}
