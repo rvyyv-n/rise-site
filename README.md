@@ -80,10 +80,14 @@ Node 24 (see `.nvmrc`).
 ```sh
 npm ci
 npm run dev       # Vite dev server
-npm test          # literals, headers, fonts, screen budgets
+npm test          # literals, headers, fonts, release parsing, screen budgets
 npm run build     # build to dist/, then write the latest release into the pages
 npm run preview   # serve dist/ on :4173 with the same headers as production
 ```
+
+The build reads the latest [app release](https://github.com/rvyyv-n/diet-tracker/releases/latest)
+from the GitHub API. If it can't, the pages keep the design's values and the
+download buttons still point at the latest release.
 
 The checks that need a browser run against `npm run preview`:
 
@@ -95,12 +99,17 @@ npm run audit           # requests, contrast, targets, shift, Lighthouse, screen
 npm run check:headers -- https://getrise.pages.dev
 ```
 
+Two scripts are for maintainers and rarely run. `npm run fonts` cuts the faces
+to the Latin set and needs Python with `fonttools` and `brotli`.
+`npm run demo:markup` writes the live Today phone from the design, and needs
+the design export, which is not in the repo.
+
 ## How it's laid out
 
 | Path | Holds |
 | --- | --- |
 | `index.html`, `privacy.html`, `404.html` | The three pages, Vite's inputs |
-| `src/css/` | `tokens.css` (the design's, unchanged), `site-tokens.css`, `site.css`, and `page.css` for what the port adds |
+| `src/css/` | `index.css`, which imports in cascade order: `tokens.css` (the design's, unchanged), `site-tokens.css`, `page.css` for what the port adds, and `site.css` |
 | `src/js/` | Look and theme, reveals, scroll and hero motion, view transitions, the Get Rise install card, and the live Today demo |
 | `public/js/head.js` | The blocking script that sets the Look and theme before the first paint |
 | `public/_headers` | The CSP and other headers, served by Cloudflare Pages and by `vite preview` |
@@ -115,10 +124,11 @@ a new contributor needs.
 ## Deploying
 
 The site is static and goes to Cloudflare Pages (project `getrise`).
-[`deploy.yml`](.github/workflows/deploy.yml) tests and builds every push and pull
-request, and deploys `main` once the `CLOUDFLARE_API_TOKEN` secret exists. It also
+[`deploy.yml`](.github/workflows/deploy.yml) tests and builds every push to `main`
+and every pull request (changes to docs alone are skipped), and deploys `main`
+once the `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID` secrets exist. It also
 accepts a `rise-release` dispatch from the app repo, so a release can refresh the
-version on the download buttons.
+version on the download buttons. Until then, deploy by hand:
 
 ```sh
 npm run build
