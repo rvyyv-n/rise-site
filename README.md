@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="public/assets/icon-192.png" alt="" width="96" height="96" />
+<img src=".t3/project-icon.svg" alt="" width="96" height="96" />
 
 # Rise, the website
 
