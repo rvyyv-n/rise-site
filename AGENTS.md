@@ -2,7 +2,8 @@
 
 A static, 1:1 port of the Rise design export, built by Vite in vanilla mode and
 served at https://getrise.pages.dev. Work goes in build passes: read
-`roadmap.md` for the plan and state, and run one with the `build-pass` skill.
+`roadmap.md` for the plan and state, and run one with the `build-pass` skill in
+`.agents/skills/build-pass/SKILL.md`.
 The handoff is `private/rise-website-v1/`: never import, serve or commit it.
 
 ## Rules
@@ -11,13 +12,11 @@ The handoff is `private/rise-website-v1/`: never import, serve or commit it.
   name in anything that is committed, pushed, deployed or published: files,
   commit messages, PR titles and bodies, release notes, deploy messages, site
   copy. No co-author or generated-by lines. Name these files "the project
-  brief" and "the build-pass skill" in prose. The only exceptions are the
-  tooling paths themselves (this file's name and the tooling folder). Local git hooks
-  (`commit-msg`, `pre-commit`, `pre-push`, untracked, from diet-tracker)
-  reject a forbidden name in added lines or messages, and a wrong author or
-  committer. Never bypass them with `--no-verify`. The checkout's parent
-  folder carries the forbidden name, so write repo-relative paths, never
-  absolute ones.
+  brief" and "the build-pass skill" in prose. Local git hooks (`commit-msg`,
+  `pre-commit`, `pre-push`, untracked, from diet-tracker) reject a forbidden
+  name in added lines or messages, and a wrong author or committer. Never
+  bypass them with `--no-verify`. The checkout's parent folder carries a
+  forbidden name, so write repo-relative paths, never absolute ones.
 - Plain HTML, CSS and JS. No framework or UI library.
 - Nothing leaves the origin: no CDNs, font services, analytics, third-party
   scripts or embeds.
@@ -54,5 +53,8 @@ The handoff is `private/rise-website-v1/`: never import, serve or commit it.
   than once per build pass.
 - Use `-s` with npm scripts and keep command output short (`tail`, `grep`).
 - Don't spawn subagents, loops or workflows unless asked. Work inline.
+- Scripts: `npm ci` (lockfile install), `npm run dev`, `npm test`,
+  `npm run audit`. Use a free port in a worktree, and never leave a dev
+  server or watcher running at the end of a turn.
 - Stop at the end of a build pass and report; the next one starts in a fresh
   thread.

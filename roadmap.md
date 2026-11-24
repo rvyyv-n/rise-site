@@ -12,37 +12,32 @@ is git-ignored and never imported, served or committed.
 
 ## Build passes
 
-A build pass is a group of similar targets, run in one thread on one model. The
-old pass names (S2 to S11) are kept as target names. Build passes 1 to 6 are done.
+A build pass is a group of similar targets, run in one thread. The old pass
+names (S2 to S11) are kept as target names. Build passes 1 to 6 are done.
 
-| Build pass | Targets | Model | State |
-| --- | --- | --- | --- |
-| 1 `foundation` | scaffold (S2), looks (S3) | Opus 5.5, high | Done |
-| 2 `landing` | hero (S4), sections (S5) | Sonnet 5.5, high | Done |
-| 3 `shots` | shots (S6) | Sonnet 5.5, high | Done |
-| 4 `get and pages` | downloads (S7), privacy (S8) | Sonnet 5.5, high | Done |
-| 5 `interaction` | motion (S9), demo (S10) | Opus 5.5, high | Done |
-| 6 `audit` | audit (S11) | Opus 5.5, high | Done |
-
-Why these models: build passes 2 to 4 are careful copying from the source and
-wiring scripts the plan already describes, which Sonnet does well at a lower
-cost. Build pass 5 has timing, layout-shift and state bugs that are easy to
-miss, and build pass 6 judges the whole site, so both get Opus.
+| Build pass | Targets | State |
+| --- | --- | --- |
+| 1 `foundation` | scaffold (S2), looks (S3) | Done |
+| 2 `landing` | hero (S4), sections (S5) | Done |
+| 3 `shots` | shots (S6) | Done |
+| 4 `get and pages` | downloads (S7), privacy (S8) | Done |
+| 5 `interaction` | motion (S9), demo (S10) | Done |
+| 6 `audit` | audit (S11) | Done |
 
 **In diet-tracker, not this repo** (run there, with its own `build-pass` skill
 or by hand):
 
-| Target | Model | When |
-| --- | --- | --- |
-| `site-hook`: a release triggers a site deploy | Sonnet 5.5, medium | After build pass 4 |
-| `readme`: the README links the site first | Sonnet 5.5, medium | Done |
+| Target | When |
+| --- | --- |
+| `site-hook`: a release triggers a site deploy | After build pass 4 |
+| `readme`: the README links the site first | Done |
 
 ## Targets
 
 All site targets are done, and so is `readme` (diet-tracker's README links the
 site first; this repo has its own README and previews in `docs/screenshots/`).
 What is left is a motion check right before the deploy: `npm run check:motion`
-on Opus 5.5, medium, in its own thread, then the manual deploy below.
+in its own thread, then the manual deploy below.
 
 ## Notes for the next build pass
 

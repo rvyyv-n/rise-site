@@ -5,9 +5,8 @@ description: Run a Rise site build pass by number or name - "build pass 2" to "b
 
 # Build a build pass
 
-`roadmap.md` is the spec: the build pass table, the model for each, and each
-target's Reads / Does / Done when. `CLAUDE.md` holds the rules. This skill is
-the protocol.
+`roadmap.md` is the spec: the build pass table and each target's Reads / Does /
+Done when. `AGENTS.md` holds the rules. This skill is the protocol.
 
 ## 1. What to run
 
@@ -15,13 +14,11 @@ the protocol.
   every unfinished target in that group, in order. A single target name runs
   just that target.
 - Build passes run in order. If an earlier one isn't done, say which and ask.
-- If this session's model differs from the roadmap's, say so in one line and
-  carry on unless the user wants to switch.
 
 ## 2. For each target
 
 **Read only what it lists.** The target's entry in `roadmap.md`, then its
-Reads. In `Main.dc.html`, `Grep` the section id and read that line range. Read
+Reads. In `Main.dc.html`, search the section id and read that line range. Read
 plan sections by heading, never the whole plan. Look at a render only as a crop
 from `npm run shot` (below), not the full JPG: the landing renders are up to
 16,000px tall.
